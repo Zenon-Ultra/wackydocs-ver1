@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 2: From Casual Buyers to Lasting Fans - 문장 순서 배열 연습</title>
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        :root {
+            --accent: #7c3aed;
+            --accent-hover: #6d28d9;
+            --accent-light: #f5f3ff;
+            --accent-subtle: rgba(124, 58, 237, 0.2);
+            --accent-glow: rgba(124, 58, 237, 0.28);
+        }
+        .header {
+            background: linear-gradient(135deg, #2e1065 0%, #581c87 50%, #7c3aed 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="main.html" class="back-btn">← 목록으로</a>
+            <div class="header-badge">📱 Lesson 2 · YBM(박준언)</div>
+            <h1>From Casual Buyers to Lasting Fans</h1>
+            <p>The Subscription Economy: From Ownership to Access · 문맥 흐름을 파악하여 올바른 순서로 배열해보세요</p>
+        </div>
+
+        <div class="exercise-container">
+            <div class="exercise-info">
+                <h3>📚 연습 방법</h3>
+                <p>1. 아래에서 연습할 문단을 선택하세요<br>
+                2. 왼쪽의 문장을 클릭해서 선택한 후, 오른쪽의 원하는 위치를 클릭하세요<br>
+                3. 잘못 배치한 문장은 클릭해서 다시 왼쪽으로 돌려보낼 수 있습니다<br>
+                4. '정답 확인' 버튼을 눌러 결과를 확인하세요</p>
+            </div>
+
+            <div class="exercise-select">
+                <select id="exerciseSelect">
+                    <option value="">연습할 문단을 선택하세요</option>
+                    <option value="paragraph1">Paragraph 1: Jiyun's Life in the Subscription Economy - 6문장</option>
+                    <option value="paragraph2">Paragraph 2: Expansion of Subscriptions & Advantages - 11문장</option>
+                    <option value="paragraph3">Paragraph 3: Experience Over Ownership & Customization - 11문장</option>
+                    <option value="paragraph4">Paragraph 4: Flexibility, Convenience & Platform Access - 8문장</option>
+                    <option value="paragraph5">Paragraph 5: Online Platforms & AI Customization - 7문장</option>
+                    <option value="paragraph6">Paragraph 6: Limitations: Overconsumption & Financial Burden - 9문장</option>
+                    <option value="paragraph7">Paragraph 7: Environmental Impact & Wise Consumption - 6문장</option>
+                </select>
+            </div>
+
+            <div class="controls">
+                <button class="btn" id="shuffleBtn" disabled="">다시 섞기</button>
+                <button class="btn" id="checkBtn" disabled="">정답 확인</button>
+                <button class="btn" id="resetBtn" disabled="">초기화</button>
+            </div>
+
+            <div class="score-display" id="scoreDisplay" style="display: none;">
+                점수: <span id="score">0</span>/100
+            </div>
+
+            <div class="feedback" id="feedback"></div>
+
+            <div class="exercise-area" id="exerciseArea" style="display: none;">
+                <div class="scrambled-sentences">
+                    <h3>🔀 Scrambled Sentences</h3>
+                    <div id="scrambledContainer"></div>
+                </div>
+                <div class="ordered-sentences">
+                    <h3>✅ Correct Order</h3>
+                    <div id="orderedContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       const exercises = {
+            paragraph1: [
+                "Jiyun, a high school student, starts her day by logging in to a music streaming service on her smartphone.",
+                "She enjoys listening to her favorite music, discovering new songs, and exploring new artists every day.",
+                "For a healthy breakfast, Jiyun receives a delivery from a subscription service that provides fresh vegetables and fruits.",
+                "After school, Jiyun utilizes a video lecture service to expand her knowledge in whatever she finds interesting.",
+                "For example, she watches various academic lectures to review her schoolwork and stay updated about the latest knowledge in her chosen field of study.",
+                "During weekends, Jiyun and her family spend quality time together watching movies or dramas using a streaming service."
+            ],
+            paragraph2: [
+                "To be sure, the subscription economy is a popular economic model nowadays, and Jiyun is actively taking part in it.",
+                "The concept of business models based on subscriptions is not new.",
+                "Initially it was limited to products such as milk and newspapers.",
+                "However, these business models have expanded to all industries, including entertainment, technology, fashion, education, and much more.",
+                "Instead of creating a hit product that will be sold once, companies now prioritize providing continuing value, such as new content, more personalization, or access to updates.",
+                "Customers pay for these benefits via a regular subscription.",
+                "The subscription economy brings advantages for both companies and consumers.",
+                "Companies can have a stable revenue and build customer loyalty by using the subscription model.",
+                "From the consumers’ perspective, they can enjoy a wider range of choices and personalized experiences.",
+                "They can also save money by having flexible subscription contracts.",
+                "The rise of the subscription economy is closely connected to two major drivers: changes in consumption trends and the rapid growth of online platforms."
+            ],
+            paragraph3: [
+                "The subscription economy is highly relevant to how people consume goods and services nowadays.",
+                "More and more people prioritize experiences over owning things.",
+                "This makes the subscription economy attractive to them because it offers access to services or content without the requirement of ownership.",
+                "For example, by subscribing to a music streaming service, consumers can enjoy limitless music without the need for having disc albums.",
+                "Another example is subscribing to clothing services, where consumers can explore a variety of clothing styles without filling up their drawers.",
+                "Moreover, consumers value diversity and customization.",
+                "The subscription economy offers a diverse range of subscription options, enabling individuals to personalize their experiences based on their own preferences and interests.",
+                "This aspect of the subscription economy is more popular among younger generations, as they enjoy expressing their uniqueness and discovering valuable content and services that fit with their individual tastes.",
+                "A popular example that has gained attention is the cosmetics subscription service.",
+                "It stands out by thoroughly analyzing customers’ current skin conditions and providing specialized recommendations, including manufacturing cosmetics created to address each individual’s unique skin concerns.",
+                "To come to the point, consumers receive a personalized experience that prioritizes their individual skin conditions, rather than a uniform purchasing process."
+            ],
+            paragraph4: [
+                "Furthermore, consumers appreciate flexibility and convenience.",
+                "In some subscription models, consumers can experience a variety of products or services for a fixed cost.",
+                "In other models, they can flexibly adjust subscription fees by choosing only the necessary services or products when needed.",
+                "This means they can either enjoy a range of offerings for a set price or save money by selecting only what they really need.",
+                "Moreover, subscription services are made easily accessible by online platforms, enhancing consumers convenience.",
+                "With just a few clicks, consumers can receive services or products.",
+                "If they wish to change their device model, they can do so.",
+                "Whoever desires an upgrade can get it and experience the latest models."
+            ],
+            paragraph5: [
+                "With the development of various digital devices centered on smartphones, consumers have been able to do numerous things with great ease.",
+                "In the past, people had no choice but to go to the theater or purchase the videos they wanted to watch.",
+                "Today, whoever wants to watch a movie can access online media subscription platforms and enjoy a vast selection of movies on their smartphones or other digital devices.",
+                "At the same time, these platforms make it easy for companies to offer customized products and services to customers.",
+                "By applying AI and big data algorithm technology, companies identify consumers’ needs, tastes, and consumption patterns.",
+                "People appreciate having diverse choices and customization, which in turn enhances their satisfaction.",
+                "Services, such as suggesting personalized clothing styles based on customers’ purchase history or recommending videos that match their movie and video viewing history, bring them great satisfaction."
+            ],
+            paragraph6: [
+                "Although the subscription economy offers many advantages, there are also some disadvantages to consider.",
+                "One concern is the potential for overconsumption.",
+                "The convenience and accessibility of the subscription model make it easy for consumers to sign up for multiple services and use a lot of content or products.",
+                "This can result in excessive consumption and using more subscription services than actually needed.",
+                "It is crucial to subscribe only to services that are truly necessary and avoid subscribing to similar services.",
+                "Related to the concern of overconsumption is the financial burden that subscriptions can create.",
+                "While the cost of individual subscriptions may seem affordable, subscribing to multiple services can add up quickly.",
+                "It is important to carefully consider the costs of these subscriptions to avoid financial strain.",
+                "Regularly reviewing and canceling unnecessary subscriptions can be beneficial."
+            ],
+            paragraph7: [
+                "Additionally, the subscription economy can contribute to environmental pollution.",
+                "The regular delivery of products in packaging materials can increase the use of disposable packaging, which harms the environment.",
+                "Using environmentally friendly packaging materials and opting for reusable packaging can help reduce this problem.",
+                "Despite the potential limitations of subscription services, they have become deeply embedded in our lives and more and more businesses are jumping onto the subscription economy model.",
+                "It is expected that new subscription services will be continuously provided to consumers in new areas in the future.",
+                "We need to have a deeper understanding of the subscription economy and become wise consumers who receive the services that are really needed."
+            ]
+        };
+
+        let currentExercise = [];
+        let correctOrder = [];
+        let userOrder = [];
+        let selectedSentence = null;
+
+        const exerciseSelect = document.getElementById('exerciseSelect');
+        const shuffleBtn = document.getElementById('shuffleBtn');
+        const checkBtn = document.getElementById('checkBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const exerciseArea = document.getElementById('exerciseArea');
+        const scrambledContainer = document.getElementById('scrambledContainer');
+        const orderedContainer = document.getElementById('orderedContainer');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const scoreElement = document.getElementById('score');
+        const feedback = document.getElementById('feedback');
+
+        exerciseSelect.addEventListener('change', function() {
+            const selectedExercise = this.value;
+            if (selectedExercise) loadExercise(selectedExercise);
+        });
+
+        shuffleBtn.addEventListener('click', shuffleSentences);
+        checkBtn.addEventListener('click', checkAnswer);
+        resetBtn.addEventListener('click', resetExercise);
+
+        function loadExercise(exerciseKey) {
+            currentExercise = [...exercises[exerciseKey]];
+            correctOrder = [...currentExercise];
+            userOrder = [];
+            selectedSentence = null;
+            shuffleSentences();
+            exerciseArea.style.display = 'block';
+            shuffleBtn.disabled = false;
+            resetBtn.disabled = false;
+            scoreDisplay.style.display = 'none';
+            hideFeedback();
+        }
+
+        function shuffleSentences() {
+            const shuffled = [...currentExercise];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            displayScrambledSentences(shuffled);
+            createDropZones();
+            checkBtn.disabled = true;
+            userOrder = [];
+            selectedSentence = null;
+        }
+
+        function displayScrambledSentences(sentences) {
+            scrambledContainer.innerHTML = '';
+            sentences.forEach(sentence => {
+                const sentenceDiv = document.createElement('div');
+                sentenceDiv.className = 'sentence-item';
+                sentenceDiv.textContent = sentence;
+                sentenceDiv.dataset.sentence = sentence;
+                sentenceDiv.addEventListener('click', function() { selectSentence(this); });
+                scrambledContainer.appendChild(sentenceDiv);
+            });
+        }
+
+        function selectSentence(element) {
+            document.querySelectorAll('.sentence-item.selected').forEach(item => item.classList.remove('selected'));
+            document.querySelectorAll('.drop-zone.highlight').forEach(zone => zone.classList.remove('highlight'));
+            element.classList.add('selected');
+            selectedSentence = element;
+            document.querySelectorAll('.drop-zone').forEach(zone => zone.classList.add('highlight'));
+            showFeedback('선택된 문장을 배치할 위치를 클릭하세요!', 'correct');
+        }
+
+        function createDropZones() {
+            orderedContainer.innerHTML = '';
+            for (let i = 0; i < currentExercise.length; i++) {
+                const dropZone = document.createElement('div');
+                dropZone.className = 'drop-zone';
+                dropZone.textContent = `문장 ${i + 1}을 여기에 배치하세요`;
+                dropZone.dataset.position = i;
+                dropZone.addEventListener('click', function() { handleDropZoneClick(this); });
+                orderedContainer.appendChild(dropZone);
+            }
+        }
+
+        function handleDropZoneClick(dropZone) {
+            if (!selectedSentence) {
+                showFeedback('먼저 왼쪽에서 문장을 선택하세요!', 'incorrect');
+                return;
+            }
+            const sentence = selectedSentence.dataset.sentence;
+            const position = parseInt(dropZone.dataset.position);
+            const sentenceDiv = document.createElement('div');
+            sentenceDiv.className = 'sentence-item';
+            sentenceDiv.textContent = sentence;
+            sentenceDiv.dataset.sentence = sentence;
+            sentenceDiv.dataset.position = position;
+            sentenceDiv.addEventListener('click', function() { returnSentence(this); });
+            dropZone.parentNode.replaceChild(sentenceDiv, dropZone);
+            selectedSentence.remove();
+            selectedSentence = null;
+            document.querySelectorAll('.sentence-item.selected').forEach(item => item.classList.remove('selected'));
+            document.querySelectorAll('.drop-zone.highlight').forEach(zone => zone.classList.remove('highlight'));
+            updateUserOrder();
+            hideFeedback();
+        }
+
+        function returnSentence(sentenceElement) {
+            const position = parseInt(sentenceElement.dataset.position);
+            const sentence = sentenceElement.dataset.sentence;
+            const dropZone = document.createElement('div');
+            dropZone.className = 'drop-zone';
+            dropZone.textContent = `문장 ${position + 1}을 여기에 배치하세요`;
+            dropZone.dataset.position = position;
+            dropZone.addEventListener('click', function() { handleDropZoneClick(this); });
+            sentenceElement.parentNode.replaceChild(dropZone, sentenceElement);
+            const newSentenceDiv = document.createElement('div');
+            newSentenceDiv.className = 'sentence-item';
+            newSentenceDiv.textContent = sentence;
+            newSentenceDiv.dataset.sentence = sentence;
+            newSentenceDiv.addEventListener('click', function() { selectSentence(this); });
+            scrambledContainer.appendChild(newSentenceDiv);
+            selectedSentence = null;
+            document.querySelectorAll('.sentence-item.selected').forEach(item => item.classList.remove('selected'));
+            document.querySelectorAll('.drop-zone.highlight').forEach(zone => zone.classList.remove('highlight'));
+            updateUserOrder();
+        }
+
+        function updateUserOrder() {
+            userOrder = [];
+            const placedSentences = orderedContainer.querySelectorAll('.sentence-item');
+            placedSentences.forEach(sentence => {
+                const position = parseInt(sentence.dataset.position);
+                userOrder[position] = sentence.dataset.sentence;
+            });
+            const hasEmptySlots = userOrder.includes(undefined) || userOrder.length !== currentExercise.length;
+            checkBtn.disabled = hasEmptySlots;
+        }
+
+        function checkAnswer() {
+            let correct = 0;
+            const placedSentences = orderedContainer.querySelectorAll('.sentence-item');
+            placedSentences.forEach(sentence => {
+                sentence.classList.remove('correct-sentence', 'incorrect-sentence');
+                const position = parseInt(sentence.dataset.position);
+                if (sentence.dataset.sentence === correctOrder[position]) {
+                    sentence.classList.add('correct-sentence');
+                    correct++;
+                } else {
+                    sentence.classList.add('incorrect-sentence');
+                }
+            });
+            const score = Math.round((correct / currentExercise.length) * 100);
+            scoreElement.textContent = score;
+            scoreDisplay.style.display = 'block';
+            if (score === 100) {
+                showFeedback('🎉 완벽합니다! 모든 문장을 올바르게 배열했습니다!', 'correct');
+            } else if (score >= 70) {
+                showFeedback(`👍 잘했습니다! ${correct}/${currentExercise.length}개 정답입니다.`, 'correct');
+            } else {
+                showFeedback(`💪 다시 한번 시도해보세요! ${correct}/${currentExercise.length}개 정답입니다.`, 'incorrect');
+            }
+        }
+
+        function resetExercise() {
+            const selectedExercise = exerciseSelect.value;
+            if (selectedExercise) loadExercise(selectedExercise);
+            hideFeedback();
+        }
+
+        function showFeedback(message, type) {
+            feedback.textContent = message;
+            feedback.className = `feedback ${type}`;
+        }
+
+        function hideFeedback() {
+            feedback.className = 'feedback';
+        }
+    </script>
+</body></html>

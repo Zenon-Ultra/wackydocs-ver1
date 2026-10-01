@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고2 2026년 9월 모의고사 - 문장 순서 배열 연습</title>
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        :root {
+            --accent: #e11d48;
+            --accent-hover: #be123c;
+            --accent-light: #fff1f2;
+            --accent-subtle: rgba(225, 29, 72, 0.2);
+            --accent-glow: rgba(225, 29, 72, 0.28);
+        }
+        .header {
+            background: linear-gradient(135deg, #4c0519 0%, #881337 50%, #e11d48 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="main.html" class="back-btn">← 목록으로</a>
+            <div class="header-badge">📝 전국연합학력평가</div>
+            <h1>고2 2026년 9월 모의고사</h1>
+            <p>29번 ~ 40번 (총 12개 지문) · 실전 수능형 문장 순서 배열 집중 훈련</p>
+        </div>
+
+        <div class="exercise-container">
+            <div class="exercise-info">
+                <h3>📚 연습 방법</h3>
+                <p>1. 아래 메뉴에서 연습할 문제 번호를 선택하세요.<br>
+                2. 왼쪽의 문장을 클릭해서 선택한 후, 오른쪽의 원하는 위치를 클릭하세요.<br>
+                3. 잘못 배치한 문장은 클릭해서 다시 왼쪽으로 돌려보낼 수 있습니다.<br>
+                4. '정답 확인' 버튼을 눌러 결과를 확인하세요.</p>
+            </div>
+
+            <div class="exercise-select">
+                <select id="exerciseSelect">
+                    <option value="">연습할 지문을 선택하세요</option>
+                    <option value="g2_2026_09_29">29번 - 자본주의와 저렴한 자연의 착취 (7문장)</option>
+                    <option value="g2_2026_09_30">30번 - 도덕적 허가와 친환경 죄책감 (7문장)</option>
+                    <option value="g2_2026_09_31">31번 - 유동하는 인류와 양자적 인간 (6문장)</option>
+                    <option value="g2_2026_09_32">32번 - 공유된 사회적 이해와 집단 소속감 (9문장)</option>
+                    <option value="g2_2026_09_33">33번 - 슬픔 치유 작업(Grief Work)의 중요성 (8문장)</option>
+                    <option value="g2_2026_09_34">34번 - 미디어/기술의 미묘한 장기적 영향 (10문장)</option>
+                    <option value="g2_2026_09_35">35번 - 물리적 자산의 복제본 '디지털 트윈' (6문장)</option>
+                    <option value="g2_2026_09_36">36번 - 서식지 선택과 미래 번식 요구 예측 (5문장)</option>
+                    <option value="g2_2026_09_37">37번 - 문화의 발현으로서의 언어와 소통 양식 (9문장)</option>
+                    <option value="g2_2026_09_38">38번 - 물리적 밀도(Density)와 심리적 혼잡(Crowding) (7문장)</option>
+                    <option value="g2_2026_09_39">39번 - 조직 내 배제와 부정적 영향 (9문장)</option>
+                    <option value="g2_2026_09_40">40번 - 선행 회상과 순수한 이타주의 (5문장)</option>
+                </select>
+            </div>
+
+            <div class="controls">
+                <button class="btn" id="shuffleBtn" disabled>다시 섞기</button>
+                <button class="btn" id="checkBtn" disabled>정답 확인</button>
+                <button class="btn" id="resetBtn" disabled>초기화</button>
+            </div>
+
+            <div class="score-display" id="scoreDisplay" style="display: none;">
+                점수: <span id="score">0</span>/100
+            </div>
+
+            <div class="feedback" id="feedback"></div>
+
+            <div class="exercise-area" id="exerciseArea" style="display: none;">
+                <div class="scrambled-sentences">
+                    <h3>🔀 섞인 문장 (Scrambled)</h3>
+                    <div id="scrambledContainer"></div>
+                </div>
+
+                <div class="ordered-sentences">
+                    <h3>✅ 올바른 순서 (Correct Order)</h3>
+                    <div id="orderedContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+ const exercises = {
+    g2_2026_09_29: [
+        "Capitalism is not a system where cash is everywhere but rather one in which islands of cash exchange exist within oceans of cheap — or potentially cheap — natures.",
+        "Reproducing life within the cash nexus is expensive, and it grows more expensive over time.",
+        "Workers' wages can be frozen, even rolled back, but in the end inequality leads to crises of the kind we've recently seen bring about populist protests in the United States and the United Kingdom.",
+        "Workers demand dignity, and their labor becomes expensive.",
+        "Production processes burn through an island, and energy is no longer cheap.",
+        "The climate changes, and crops can no longer grow as abundantly as they once did.",
+        "Frontiers are so important in these processes because they offer places where the new cheap things can be seized — and the cheap work of humans and other natures can be forcefully taken."
+    ],
+    g2_2026_09_30: [
+        "Some people are more likely to cheat and steal after purchasing \"eco-friendly\" products, probably because they feel licensed to do so since they morally account the \"eco-friendly\" choice as a \"good\" deed.",
+        "Moral licensing has also been observed in the context of cooperation for the good of the environment.",
+        "When people are reminded of deeds they have done that they know were harmful to the environment, they might be left with a feeling of \"eco-guilt.\"",
+        "People who experience eco-guilt seek pro-environmental actions to compensate for this guilt and restore balance.",
+        "In their search for such a balance, people are inclined to believe in \"quick-fixes,\" because they want to re-establish the moral balance and escape the guilt as quickly and easily as possible.",
+        "In the same way that people may change their attitudes to reduce inconsistencies between attitudes and behavior, people may also change their evaluation of past environmentally burdening behaviors and future environmentally friendly behaviors.",
+        "For instance, people are more likely to sign a petition addressing environmental damage after viewing evidence of human-caused environmental damage."
+    ],
+    g2_2026_09_31: [
+        "Human geography is becoming unclear.",
+        "As people find themselves regularly on the move, we are experiencing a phase shift like when matter transitions from solid to liquid to gas: molecules heat up and loosen from one another, vibrating more rapidly.",
+        "One might even say that humans are becoming like particles in quantum physics, their velocity and location always in flux.",
+        "It would be nice to return to some form of stability, but that's not how things work in a quantum world.",
+        "Instead, the complexity of today's world makes it increasingly difficult to settle permanently anywhere.",
+        "Highly paid digital nomads and billionaires with multiple passports as well as migratory workers are all part of the diverse and growing global demographic of quantum people."
+    ],
+    g2_2026_09_32: [
+        "Of the cognitive motivations, the most fundamental one encourages people to understand their environment to predict what is going to happen in case of uncertainties.",
+        "Most important, people prefer to develop meanings that are shared with other people.",
+        "For example, if in a given year more people accept offers of admission than a college expects, quite a few students end up living in dorm lounges or campus hotels.",
+        "It is easy to understand why living in the lounge is problematic (no closet, for one thing).",
+        "But what is wrong with a room at campus hotels?",
+        "After all, students in a hotel get private bathrooms, their own TV, and larger rooms.",
+        "In fact, living in those hotels is problematic because the student residents are not a part of a stable group with people who will be their neighbors for the year; they must wait in uncertainty before finding their social niche.",
+        "The uncertainty itself is the problem.",
+        "People lack a shared social understanding, normally developed from membership in a stable group."
+    ],
+    g2_2026_09_33: [
+        "Psychological theories across the field agree on the importance of grieving our losses, from the highly personal through to the broadly collective.",
+        "Grief is a dynamic emotional process essential to consciousness.",
+        "At a psychological level, it supports us to both face into our own and others' vulnerability, transience and mortality, and to repair life energy after significant loss.",
+        "Grief work honours the loss, the sadness and the experience of diminishment or absence, while also setting up the ground for self-transformation and the continuation of life.",
+        "Psychotherapist Fran Weller describes grief work is \"an act of devotion, rooted in love and compassion\" that requires \"an ongoing practice of deepening, attending and listening.\"",
+        "When we grieve for what is lost, it clears the way towards a strengthening of love and commitment for what remains.",
+        "In time this may build a desire to make good from the loss by repairing as many damages as we can and/or compensating for them.",
+        "Grief can make us both very sad and very motivated to act."
+    ],
+    g2_2026_09_34: [
+        "When we focus on the obvious aspects of media, we miss the changes that accumulate over time but are not apparent day to day.",
+        "Most of us notice the obvious aspects of a new medium or technology while missing the more subtle aspects.",
+        "Take, for example, the microwave oven.",
+        "It was introduced in the early 1980s and revolutionized food preparation.",
+        "Traditionally, one person spent the better part of an afternoon fixing an evening meal for a family.",
+        "Now, it was possible to prepare foods very quickly, and this shortening of preparation time was liberating for the cooks in the family, most of whom tended to be women.",
+        "But the short-term, obvious implications of greater convenience made it easy to overlook the long-term implications of no longer having one person fix food for the family to eat together at an evening meal.",
+        "As time went on, fewer and fewer families sat down together to eat dinner.",
+        "Meals that took a long time to prepare became a luxury of the past, except perhaps for special occasions.",
+        "The effects of the microwave oven on family life were not anticipated and would have been difficult to foresee."
+    ],
+    g2_2026_09_35: [
+        "Digital twins are digital replicas of assets or activities using modeling and sensors to create digital representations.",
+        "Digital twins are not new; engineering teams in various industries have used 3D renderings of computer-aided design models, asset models, and process simulations for years.",
+        "However, faster wireless networks and the resulting availability of real-time data enable much more detailed and dynamic digital representations.",
+        "When sensors collect data from a connected device, the sensor data can be used to continuously update the digital twin.",
+        "The digital twin becomes a real-time accurate copy of a physical object's properties and states.",
+        "For instance, digital twins of physical assets such as power-generation turbines, jet engines, and train engines are becoming common when the assets are very valuable and when downtime would be very costly."
+    ],
+    g2_2026_09_36: [
+        "The ability to select a set of surroundings suitable for foraging, shelter from predators, and the availability of mates is one of the most important determinants of biological success — measured as survival to reproductive age and the production of offspring.",
+        "Many studies have shown that not only do animals have a remarkable ability to seek out the best available locations for the necessities of life, but that they are able to anticipate how a setting will serve their future needs.",
+        "For example, the black-throated green warbler, a small songbird that nests in spruce forests of eastern North America, establishes territories preferentially among the red spruce trees early in the summer months, even though these trees offer less food than the neighboring white spruce trees.",
+        "Later, though, when nests are built and hungry baby birds need nourishment, it is the red spruce forest that offers the easier pickings.",
+        "Somehow, the warbler has been guided to settle in locations that will suit its future parenting needs better than its present ones."
+    ],
+    g2_2026_09_37: [
+        "Language is a manifestation of culture.",
+        "At different language acquisition stages, children do not learn language per se; rather they learn the various patterns and styles of language interaction that enable them to function as competent communicators in different situational contexts.",
+        "They develop a culture-specific communication style that is, for example, direct and explicit in individualistic cultures or indirect and implicit in collectivistic cultures.",
+        "Examples of words linked with the direct style are categorical words like absolutely, certainly, or positively.",
+        "By contrast, the cultural assumptions of interdependence and harmony require that collectivists limit themselves to implicit and even ambiguous use of words, using terms like maybe, perhaps, or probably.",
+        "The English language is the only language in the world that spells I with a capital letter.",
+        "This phenomenon may reflect the fact that the roots of individualism are in England.",
+        "There is no Japanese equivalent for the English I.",
+        "Different words are used to refer to the self, depending on the social situation, the speaker's gender, age, and the other social attributes relative to the listener."
+    ],
+    g2_2026_09_38: [
+        "Environmental psychologists make a distinction between the physical measurement of density (how many people are in a particular space) and crowding (the psychological feeling of not having enough space).",
+        "Usually, high density is needed for the phenomenon of crowding, which makes people experience sensory overload, a lack of control, and rising stress and anxiety.",
+        "However, some psychologists see crowding as neutral rather than invariably negative, and believe that people's moods and behaviors intensify as density increases.",
+        "So if an individual is looking forward to a concert, say, the feeling of crowding enhances their enjoyment of the performance.",
+        "But if they are dreading an event, crowding will make the person's experience of it even worse.",
+        "Put into a community setting, crowding may accentuate the dominant behavior — an aggressive group may turn violent as density rises.",
+        "Conversely, creating positive social spaces such as parks and pedestrian areas in high-density urban environments may help to lift the general mood and defuse tension."
+    ],
+    g2_2026_09_39: [
+        "Exclusion is a state that is ignored by the organization psychologists.",
+        "Therefore, it is possible that precautions regarding organizational exclusion are not taken.",
+        "Individuals react to organizational exclusion by trying to strengthen their basic needs, which are threatened.",
+        "Positive social behaviors develop belonging and self-respect.",
+        "The likelihood that individuals who try to adapt to positive social behaviors will experience organizational exclusion decreases.",
+        "However, individuals may be faced with more exclusion when they cannot adapt to a group.",
+        "When excluded individuals grow away from communication and social activities, their contribution to the organization they are in may decrease.",
+        "When this situation is not avoided, exclusion increases even more and strongly affects the performance of the employee in a negative way.",
+        "Precautions need to be taken regarding organizational exclusion, which is very important for business."
+    ],
+    g2_2026_09_40: [
+        "Our adult brains retain a preference for perpetuating good, fair behavior.",
+        "Simply perceiving ourselves as people who do good deeds and behaving accordingly motivates us to do greater good in the future.",
+        "In one paid study of one hundred college students, subjects who wrote down a list of past good deeds and were then asked to donate money to a charity gave, on average, over half the earnings they'd made from the study — almost twice as much as those who had been instructed to recall previous bad deeds.",
+        "In addition, subjects who'd taken pains to describe not only how they'd been nice to others but how people responded were likely to donate significantly less than those who focused purely on the actions themselves.",
+        "In other words, people who seemed concerned about appearances (e.g., the impact of their good deed, as much as the deed itself) were less generous than those who cared more about doing good for its own sake."
+    ]
+};
+
+
+        let currentExercise = [];
+        let correctOrder = [];
+        let userOrder = [];
+        let selectedSentence = null;
+
+        const exerciseSelect = document.getElementById('exerciseSelect');
+        const shuffleBtn = document.getElementById('shuffleBtn');
+        const checkBtn = document.getElementById('checkBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const exerciseArea = document.getElementById('exerciseArea');
+        const scrambledContainer = document.getElementById('scrambledContainer');
+        const orderedContainer = document.getElementById('orderedContainer');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const scoreElement = document.getElementById('score');
+        const feedback = document.getElementById('feedback');
+
+        exerciseSelect.addEventListener('change', function() {
+            const selectedExercise = this.value;
+            if (selectedExercise) {
+                loadExercise(selectedExercise);
+            }
+        });
+
+        shuffleBtn.addEventListener('click', shuffleSentences);
+        checkBtn.addEventListener('click', checkAnswer);
+        resetBtn.addEventListener('click', resetExercise);
+
+        function loadExercise(exerciseKey) {
+            currentExercise = [...exercises[exerciseKey]];
+            correctOrder = [...currentExercise];
+            userOrder = [];
+            selectedSentence = null;
+
+            shuffleSentences();
+            exerciseArea.style.display = 'block';
+            shuffleBtn.disabled = false;
+            resetBtn.disabled = false;
+            scoreDisplay.style.display = 'none';
+            hideFeedback();
+        }
+
+        function shuffleSentences() {
+            const shuffled = [...currentExercise];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+
+            displayScrambledSentences(shuffled);
+            createDropZones();
+            checkBtn.disabled = true;
+            userOrder = [];
+            selectedSentence = null;
+        }
+
+        function displayScrambledSentences(sentences) {
+            scrambledContainer.innerHTML = '';
+            sentences.forEach((sentence) => {
+                const sentenceDiv = document.createElement('div');
+                sentenceDiv.className = 'sentence-item';
+                sentenceDiv.textContent = sentence;
+                sentenceDiv.dataset.sentence = sentence;
+
+                sentenceDiv.addEventListener('click', function() {
+                    selectSentence(this);
+                });
+
+                scrambledContainer.appendChild(sentenceDiv);
+            });
+        }
+
+        function selectSentence(element) {
+            document.querySelectorAll('.sentence-item.selected').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.querySelectorAll('.drop-zone.highlight').forEach(zone => {
+                zone.classList.remove('highlight');
+            });
+
+            element.classList.add('selected');
+            selectedSentence = element;
+
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                zone.classList.add('highlight');
+            });
+
+            showFeedback('선택된 문장을 배치할 위치를 클릭하세요!', 'correct');
+        }
+
+        function createDropZones() {
+            orderedContainer.innerHTML = '';
+            for (let i = 0; i < currentExercise.length; i++) {
+                const dropZone = document.createElement('div');
+                dropZone.className = 'drop-zone';
+                dropZone.textContent = `문장 ${i + 1}을 여기에 배치하세요`;
+                dropZone.dataset.position = i;
+
+                dropZone.addEventListener('click', function() {
+                    handleDropZoneClick(this);
+                });
+
+                orderedContainer.appendChild(dropZone);
+            }
+        }
+
+        function handleDropZoneClick(dropZone) {
+            if (!selectedSentence) {
+                showFeedback('먼저 왼쪽에서 문장을 선택하세요!', 'incorrect');
+                return;
+            }
+
+            const sentence = selectedSentence.dataset.sentence;
+            const position = parseInt(dropZone.dataset.position);
+
+            const sentenceDiv = document.createElement('div');
+            sentenceDiv.className = 'sentence-item';
+            sentenceDiv.textContent = sentence;
+            sentenceDiv.dataset.sentence = sentence;
+            sentenceDiv.dataset.position = position;
+
+            sentenceDiv.addEventListener('click', function() {
+                returnSentence(this);
+            });
+
+            dropZone.parentNode.replaceChild(sentenceDiv, dropZone);
+            selectedSentence.remove();
+            selectedSentence = null;
+
+            document.querySelectorAll('.sentence-item.selected').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.querySelectorAll('.drop-zone.highlight').forEach(zone => {
+                zone.classList.remove('highlight');
+            });
+
+            updateUserOrder();
+            hideFeedback();
+        }
+
+        function returnSentence(sentenceElement) {
+            const position = parseInt(sentenceElement.dataset.position);
+            const sentence = sentenceElement.dataset.sentence;
+
+            const dropZone = document.createElement('div');
+            dropZone.className = 'drop-zone';
+            dropZone.textContent = `문장 ${position + 1}을 여기에 배치하세요`;
+            dropZone.dataset.position = position;
+
+            dropZone.addEventListener('click', function() {
+                handleDropZoneClick(this);
+            });
+
+            sentenceElement.parentNode.replaceChild(dropZone, sentenceElement);
+
+            const newSentenceDiv = document.createElement('div');
+            newSentenceDiv.className = 'sentence-item';
+            newSentenceDiv.textContent = sentence;
+            newSentenceDiv.dataset.sentence = sentence;
+
+            newSentenceDiv.addEventListener('click', function() {
+                selectSentence(this);
+            });
+
+            scrambledContainer.appendChild(newSentenceDiv);
+
+            updateUserOrder();
+        }
+
+        function updateUserOrder() {
+            userOrder = [];
+            const placedSentences = orderedContainer.querySelectorAll('.sentence-item');
+            
+            placedSentences.forEach(sentence => {
+                const position = parseInt(sentence.dataset.position);
+                userOrder[position] = sentence.dataset.sentence;
+            });
+
+            let count = 0;
+            placedSentences.forEach(s => count++);
+            checkBtn.disabled = (count !== currentExercise.length);
+        }
+
+        function checkAnswer() {
+            let correctCount = 0;
+            const placedSentences = orderedContainer.querySelectorAll('.sentence-item');
+            
+            placedSentences.forEach((item) => {
+                const position = parseInt(item.dataset.position);
+                const sentence = item.dataset.sentence;
+                const isCorrect = correctOrder[position] === sentence;
+
+                if (isCorrect) {
+                    correctCount++;
+                    item.classList.add('correct-sentence');
+                    item.classList.remove('incorrect-sentence');
+                } else {
+                    item.classList.add('incorrect-sentence');
+                    item.classList.remove('correct-sentence');
+                }
+            });
+
+            const score = Math.round((correctCount / currentExercise.length) * 100);
+            scoreElement.textContent = score;
+            scoreDisplay.style.display = 'block';
+
+            if (score === 100) {
+                showFeedback('완벽합니다! 🎉 모든 문장이 올바른 순서입니다!', 'correct');
+            } else if (score >= 80) {
+                showFeedback(`좋습니다! 👍 ${correctCount}/${currentExercise.length} 문장이 올바른 위치에 있습니다.`, 'correct');
+            } else {
+                showFeedback(`다시 시도해보세요! 💪 ${correctCount}/${currentExercise.length} 문장이 올바른 위치에 있습니다.`, 'incorrect');
+            }
+        }
+
+        function showFeedback(message, type) {
+            feedback.textContent = message;
+            feedback.className = `feedback ${type}`;
+        }
+
+        function hideFeedback() {
+            feedback.className = 'feedback';
+        }
+
+        function resetExercise() {
+            const selectedExercise = exerciseSelect.value;
+            if (selectedExercise) {
+                loadExercise(selectedExercise);
+            }
+        }
+    </script>
+</body>
+</html>

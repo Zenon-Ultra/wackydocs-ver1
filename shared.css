@@ -1,0 +1,831 @@
+/* ========================================================
+   WackyDocs ENG - Shared Modern Design System
+   ======================================================== */
+
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --accent: #4f46e5;
+    --accent-hover: #4338ca;
+    --accent-light: #eef2ff;
+    --accent-subtle: rgba(99, 102, 241, 0.18);
+    --accent-glow: rgba(79, 70, 229, 0.25);
+    
+    --bg-page: #f8fafc;
+    --surface: #ffffff;
+    --surface-muted: #f8fafc;
+    
+    --border-subtle: #e2e8f0;
+    --border-medium: #cbd5e1;
+    --border-strong: #94a3b8;
+    
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    
+    --success: #10b981;
+    --success-bg: #ecfdf5;
+    --success-border: #a7f3d0;
+    --success-text: #065f46;
+    
+    --danger: #f43f5e;
+    --danger-bg: #fff1f2;
+    --danger-border: #fecdd3;
+    --danger-text: #9f1239;
+    
+    --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.04);
+    --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+    --shadow-lg: 0 20px 40px -15px rgba(15, 23, 42, 0.08), 0 0 1px 1px rgba(15, 23, 42, 0.04);
+    --shadow-hover: 0 14px 28px -6px rgba(15, 23, 42, 0.1);
+    
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+    
+    --font-sans: 'Plus Jakarta Sans', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-page);
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.07) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.06) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(14, 165, 233, 0.06) 0px, transparent 50%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    padding: 30px 20px;
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================================
+   Main Container
+   ======================================================== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-subtle);
+    overflow: hidden;
+    position: relative;
+}
+
+/* ========================================================
+   Header
+   ======================================================== */
+.header {
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 60%, #4338ca 100%);
+    color: white;
+    padding: 40px 30px;
+    text-align: center;
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 14px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(8px);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 12px;
+}
+
+.back-btn {
+    position: absolute;
+    left: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: white;
+    padding: 10px 20px;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.24);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-50%) translateX(-3px);
+}
+
+.header h1 {
+    font-size: 2.1em;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.header p {
+    font-size: 1.05em;
+    opacity: 0.9;
+    font-weight: 400;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+/* ========================================================
+   Exercise Container & Instructions
+   ======================================================== */
+.exercise-container {
+    padding: 36px 32px;
+}
+
+.exercise-info {
+    background: var(--surface-muted);
+    border: 1px solid var(--border-subtle);
+    border-left: 5px solid var(--accent);
+    padding: 22px 26px;
+    margin-bottom: 28px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.exercise-info h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.exercise-info p {
+    font-size: 14.5px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+/* ========================================================
+   Select Dropdown
+   ======================================================== */
+.exercise-select {
+    margin-bottom: 28px;
+    text-align: center;
+}
+
+.exercise-select select,
+select#exerciseSelect {
+    padding: 14px 44px 14px 20px;
+    font-size: 15.5px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    border: 1.5px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    background-color: var(--surface);
+    color: var(--text-primary);
+    cursor: pointer;
+    min-width: 360px;
+    max-width: 100%;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 18px center;
+}
+
+.exercise-select select:hover,
+select#exerciseSelect:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-md);
+}
+
+.exercise-select select:focus,
+select#exerciseSelect:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-subtle);
+}
+
+/* ========================================================
+   Control Buttons
+   ======================================================== */
+.controls {
+    text-align: center;
+    margin: 24px 0 28px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    font-family: var(--font-sans);
+    padding: 12px 24px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    outline: none;
+}
+
+#shuffleBtn {
+    background: var(--surface);
+    color: var(--text-secondary);
+    border: 1.5px solid var(--border-medium);
+    box-shadow: var(--shadow-sm);
+}
+
+#shuffleBtn:hover:not(:disabled) {
+    background: var(--surface-muted);
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+#checkBtn {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 4px 14px var(--accent-glow);
+}
+
+#checkBtn:hover:not(:disabled) {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--accent-glow);
+}
+
+#resetBtn {
+    background: var(--surface-muted);
+    color: var(--text-secondary);
+    border: 1.5px solid var(--border-subtle);
+}
+
+#resetBtn:hover:not(:disabled) {
+    background: #e2e8f0;
+    color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
+.btn:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* ========================================================
+   Score & Feedback Display
+   ======================================================== */
+.score-display {
+    text-align: center;
+    margin: 20px auto;
+    padding: 16px 28px;
+    background: var(--surface);
+    border: 1.5px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    font-size: 1.25em;
+    font-weight: 800;
+    color: var(--text-primary);
+    max-width: 320px;
+    box-shadow: var(--shadow-md);
+    letter-spacing: -0.01em;
+}
+
+.score-display span {
+    color: var(--accent);
+    font-size: 1.3em;
+}
+
+.feedback {
+    text-align: center;
+    margin: 18px auto;
+    padding: 16px 24px;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 15px;
+    max-width: 640px;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(-4px);
+}
+
+.feedback.correct {
+    background: var(--success-bg);
+    color: var(--success-text);
+    border: 1.5px solid var(--success-border);
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.15);
+}
+
+.feedback.incorrect {
+    background: var(--danger-bg);
+    color: var(--danger-text);
+    border: 1.5px solid var(--danger-border);
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow: 0 4px 14px rgba(244, 63, 94, 0.15);
+}
+
+/* ========================================================
+   Exercise Work Area (Two Columns)
+   ======================================================== */
+.exercise-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-top: 30px;
+}
+
+.scrambled-sentences, 
+.ordered-sentences {
+    background: var(--surface-muted);
+    border: 1.5px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    min-height: 480px;
+    display: flex;
+    flex-direction: column;
+}
+
+.scrambled-sentences h3, 
+.ordered-sentences h3 {
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    font-size: 1.15em;
+    font-weight: 700;
+    padding-bottom: 12px;
+    border-bottom: 1.5px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ========================================================
+   Sentence Cards
+   ======================================================== */
+.sentence-item {
+    background: var(--surface);
+    border: 1.5px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+    position: relative;
+    line-height: 1.65;
+    font-size: 15.5px;
+    font-family: var(--font-sans);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-sm);
+    word-break: keep-all;
+}
+
+.sentence-item:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+.sentence-item:active {
+    transform: scale(0.99);
+}
+
+.sentence-item.selected {
+    border-color: var(--accent) !important;
+    background-color: var(--accent-light) !important;
+    box-shadow: 0 0 0 3px var(--accent-subtle) !important;
+    transform: scale(1.01);
+}
+
+/* ========================================================
+   Drop Zones
+   ======================================================== */
+.drop-zone {
+    border: 2px dashed var(--border-medium);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    margin: 10px 0;
+    min-height: 66px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+    font-size: 14.5px;
+    font-weight: 500;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.drop-zone:hover {
+    border-color: var(--accent);
+    background-color: var(--accent-light);
+    color: var(--accent);
+}
+
+.drop-zone.highlight {
+    border-color: var(--accent);
+    background-color: var(--accent-light);
+    color: var(--accent);
+    border-style: dashed;
+    animation: pulseBorder 1.8s infinite;
+}
+
+@keyframes pulseBorder {
+    0% { box-shadow: 0 0 0 0 var(--accent-subtle); }
+    70% { box-shadow: 0 0 0 8px transparent; }
+    100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+/* Correct / Incorrect evaluation states */
+.correct-sentence {
+    border-color: var(--success) !important;
+    background-color: var(--success-bg) !important;
+    color: var(--success-text) !important;
+    box-shadow: 0 2px 10px rgba(16, 185, 129, 0.12) !important;
+}
+
+.incorrect-sentence {
+    border-color: var(--danger) !important;
+    background-color: var(--danger-bg) !important;
+    color: var(--danger-text) !important;
+    box-shadow: 0 2px 10px rgba(244, 63, 94, 0.12) !important;
+}
+
+/* ========================================================
+   Responsive Media Queries
+   — Breakpoints:
+     1024px  iPad Pro / large tablets
+     900px   iPad / medium tablets (two-col → one-col exercise)
+     768px   iPad mini / portrait / large phones
+     480px   iPhone / standard smartphones
+     375px   iPhone SE / small smartphones
+   ======================================================== */
+
+/* ── Tablet (iPad, 768–1024px) ─────────────────────────── */
+@media (max-width: 1024px) {
+    body {
+        padding: 20px 16px;
+    }
+
+    .container {
+        border-radius: var(--radius-lg);
+    }
+
+    .header {
+        padding: 36px 24px;
+    }
+
+    .header h1 {
+        font-size: 1.85em;
+    }
+
+    .header p {
+        font-size: 1em;
+    }
+
+    .exercise-container {
+        padding: 28px 24px;
+    }
+
+    .exercise-select select,
+    select#exerciseSelect {
+        min-width: 300px;
+    }
+}
+
+/* ── Tablet Portrait / Large Phone (≤900px) ─────────────── */
+@media (max-width: 900px) {
+    .exercise-area {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .scrambled-sentences,
+    .ordered-sentences {
+        min-height: 280px;
+    }
+}
+
+/* ── iPad mini / Large phones portrait (≤768px) ─────────── */
+@media (max-width: 768px) {
+    body {
+        padding: 12px 10px;
+    }
+
+    .container {
+        border-radius: var(--radius-md);
+    }
+
+    /* Header becomes a vertical stack on mobile */
+    .header {
+        padding: 24px 16px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+    }
+
+    /* Back button: no longer absolutely positioned */
+    .back-btn {
+        position: static;
+        transform: none;
+        align-self: flex-start;
+        margin-bottom: 14px;
+        padding: 9px 16px;
+        font-size: 13px;
+        /* Touch-friendly size */
+        min-height: 40px;
+    }
+
+    .back-btn:hover {
+        transform: translateX(-2px);
+    }
+
+    .header-badge {
+        font-size: 12px;
+        padding: 4px 12px;
+        margin-bottom: 10px;
+    }
+
+    .header h1 {
+        font-size: 1.5em;
+        word-break: keep-all;
+    }
+
+    .header p {
+        font-size: 0.9em;
+        word-break: keep-all;
+    }
+
+    /* Exercise area */
+    .exercise-container {
+        padding: 20px 14px;
+    }
+
+    .exercise-info {
+        padding: 16px 18px;
+        margin-bottom: 20px;
+    }
+
+    .exercise-info h3 {
+        font-size: 15px;
+    }
+
+    .exercise-info p {
+        font-size: 13.5px;
+        line-height: 1.65;
+    }
+
+    /* Select: full width on mobile */
+    .exercise-select {
+        margin-bottom: 20px;
+    }
+
+    .exercise-select select,
+    select#exerciseSelect {
+        min-width: 100%;
+        width: 100%;
+        font-size: 14px;
+        padding: 13px 40px 13px 14px;
+    }
+
+    /* Buttons: fill width on small screens, touch-friendly */
+    .controls {
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 11px 18px;
+        font-size: 14px;
+        min-height: 44px;  /* WCAG touch target */
+        flex: 1 1 auto;
+        min-width: 90px;
+    }
+
+    /* Sentence panels */
+    .scrambled-sentences,
+    .ordered-sentences {
+        padding: 16px;
+        min-height: 220px;
+    }
+
+    .scrambled-sentences h3,
+    .ordered-sentences h3 {
+        font-size: 1.05em;
+        margin-bottom: 12px;
+    }
+
+    /* Sentence cards */
+    .sentence-item {
+        font-size: 14px;
+        padding: 13px 14px;
+        line-height: 1.6;
+        margin: 8px 0;
+        /* Prevent transform lag on slow iOS */
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .sentence-item:hover {
+        transform: none;  /* No hover-translate on touch */
+        box-shadow: var(--shadow-md);
+    }
+
+    /* Drop zones */
+    .drop-zone {
+        min-height: 56px;
+        padding: 14px;
+        font-size: 13.5px;
+    }
+
+    /* Score & feedback */
+    .score-display {
+        max-width: 100%;
+        font-size: 1.1em;
+        padding: 14px 20px;
+    }
+
+    .feedback {
+        font-size: 13.5px;
+        padding: 13px 18px;
+    }
+}
+
+/* ── iPhone / Standard smartphones (≤480px) ─────────────── */
+@media (max-width: 480px) {
+    body {
+        padding: 8px 6px;
+    }
+
+    .container {
+        border-radius: 10px;
+    }
+
+    .header {
+        padding: 18px 14px 16px;
+    }
+
+    .back-btn {
+        font-size: 12px;
+        padding: 8px 14px;
+    }
+
+    .header h1 {
+        font-size: 1.3em;
+    }
+
+    .header p {
+        font-size: 0.85em;
+    }
+
+    .exercise-container {
+        padding: 16px 12px;
+    }
+
+    .exercise-select select,
+    select#exerciseSelect {
+        font-size: 13.5px;
+    }
+
+    .btn {
+        font-size: 13px;
+        padding: 10px 14px;
+    }
+
+    .sentence-item {
+        font-size: 13.5px;
+        padding: 12px;
+    }
+
+    .drop-zone {
+        min-height: 50px;
+        font-size: 13px;
+    }
+}
+
+/* ── iPhone SE / Very small phones (≤375px) ─────────────── */
+@media (max-width: 375px) {
+    .header h1 {
+        font-size: 1.2em;
+    }
+
+    .sentence-item {
+        font-size: 13px;
+        padding: 11px;
+    }
+
+    .btn {
+        font-size: 12.5px;
+        padding: 9px 12px;
+    }
+}
+
+/* ── Landscape phones (height ≤ 500px) ──────────────────── */
+@media (max-height: 500px) and (orientation: landscape) {
+    .header {
+        padding: 14px 16px;
+        flex-direction: row;
+        align-items: center;
+        text-align: left;
+        gap: 12px;
+    }
+
+    .back-btn {
+        margin-bottom: 0;
+        flex-shrink: 0;
+    }
+
+    .header-badge {
+        display: none;
+    }
+
+    .header h1 {
+        font-size: 1.2em;
+        margin-bottom: 2px;
+    }
+
+    .header p {
+        font-size: 0.8em;
+    }
+
+    .exercise-area {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    .scrambled-sentences,
+    .ordered-sentences {
+        min-height: 200px;
+    }
+}
+
+/* ── Touch device improvements ───────────────────────────── */
+@media (hover: none) and (pointer: coarse) {
+    /* Remove hover-only transforms that cause jank on touch */
+    .sentence-item:hover {
+        transform: none;
+        box-shadow: var(--shadow-sm);
+    }
+
+    /* Larger tap targets for drop zones */
+    .drop-zone {
+        min-height: 60px;
+    }
+
+    /* Disable backdrop-filter on older iOS for performance */
+    .back-btn {
+        backdrop-filter: none;
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Active state feedback for touch (replaces hover) */
+    .sentence-item:active {
+        transform: scale(0.97);
+        border-color: var(--border-strong);
+    }
+
+    .btn:active:not(:disabled) {
+        transform: scale(0.96);
+        opacity: 0.88;
+    }
+}

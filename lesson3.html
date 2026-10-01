@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 1: Connecting Through Pop Culture - 문장 순서 배열 연습</title>
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        :root {
+            --accent: #059669;
+            --accent-hover: #047857;
+            --accent-light: #ecfdf5;
+            --accent-subtle: rgba(16, 185, 129, 0.2);
+            --accent-glow: rgba(5, 150, 105, 0.28);
+        }
+        .header {
+            background: linear-gradient(135deg, #064e3b 0%, #047857 50%, #059669 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="main.html" class="back-btn">← 목록으로</a>
+            <div class="header-badge">🎧 Lesson 1 · YBM(박준언)</div>
+            <h1>Connecting Through Pop Culture</h1>
+            <p>The Story of Hip-hop Music · 문장들의 문맥 흐름을 파악하여 올바른 순서로 배열해보세요</p>
+        </div>
+
+        <div class="exercise-container">
+            <div class="exercise-info">
+                <h3>📚 연습 방법</h3>
+                <p>1. 아래에서 연습할 문단을 선택하세요<br>
+                2. 왼쪽의 문장을 클릭해서 선택한 후, 오른쪽의 원하는 위치를 클릭하세요<br>
+                3. 잘못 배치한 문장은 클릭해서 다시 왼쪽으로 돌려보낼 수 있습니다<br>
+                4. '정답 확인' 버튼을 눌러 결과를 확인하세요</p>
+            </div>
+
+            <div class="exercise-select">
+                <select id="exerciseSelect">
+                    <option value="">연습할 문단을 선택하세요</option>
+                    <option value="paragraph1">Paragraph 1: An Urban Slum & Despair - 7문장</option>
+                    <option value="paragraph2">Paragraph 2: Peace Treaty & Birth of Hip-Hop - 8문장</option>
+                    <option value="paragraph3">Paragraph 3: Block Parties & DJ Kool Herc's Break - 10문장</option>
+                    <option value="paragraph4">Paragraph 4: Breakdancing & The Beginning of MCing - 9문장</option>
+                    <option value="paragraph5">Paragraph 5: The Origin of the Word Hip-Hop & Decline in Violence - 11문장</option>
+                    <option value="paragraph6">Paragraph 6: The Messages of Hip-Hop - 8문장</option>
+                    <option value="paragraph7">Paragraph 7: The Attitude of "Respect" - 8문장</option>
+                    <option value="paragraph8">Paragraph 8: Hip-Hop in the 21st Century - 6문장</option>
+                </select>
+            </div>
+
+            <div class="controls">
+                <button class="btn" id="shuffleBtn" disabled="">다시 섞기</button>
+                <button class="btn" id="checkBtn" disabled="">정답 확인</button>
+                <button class="btn" id="resetBtn" disabled="">초기화</button>
+            </div>
+
+            <div class="score-display" id="scoreDisplay" style="display: none;">
+                점수: <span id="score">0</span>/100
+            </div>
+
+            <div class="feedback" id="feedback"></div>
+
+            <div class="exercise-area" id="exerciseArea" style="display: none;">
+                <div class="scrambled-sentences">
+                    <h3>🔀 Scrambled Sentences</h3>
+                    <div id="scrambledContainer"></div>
+                </div>
+                <div class="ordered-sentences">
+                    <h3>✅ Correct Order</h3>
+                    <div id="orderedContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       const exercises = {
+            paragraph1: [
+                "Imagine an urban area that is fast becoming a slum after an economic recession.",
+                "Businesses close their doors and building owners have left.",
+                "The area is full of abandoned buildings.",
+                "There is no heating even in winter.",
+                "Only those who can’t afford to move out remain.",
+                "Unemployment is high, many gangs emerge, and gang violence between young people becomes an everyday thing.",
+                "Despair is on every street corner."
+            ],
+            paragraph2: [
+                "One day, however, a gang called the Ghetto Brothers, which is respected because of its free meal and medical care programs, decides to stop fighting and instead persuade young people to unite and create a better community.",
+                "They suggest a peace treaty.",
+                "“This is for peace, men. The violence took away our brothers. We’re not gangsters anymore. We’ve got to make this town a better place to live.”",
+                "Thanks to these new voices, gang leaders from all over the area sign the treaty.",
+                "Never again will they use violence to solve their disputes.",
+                "This is the Bronx in the New York of the early 1970s, where hip-hop music was born as a major part of a new culture of peace created by African Americans and immigrants.",
+                "The story of hip-hop, now one of the world’s most dominant music genres, is a fascinating one.",
+                "Let’s explore it."
+            ],
+            paragraph3: [
+                "After the peace treaty, the gangs that had fought one another started partying together.",
+                "Abandoned buildings and parking lots were used for events called block parties.",
+                "What eventually emerged from these parties?",
+                "A vibrant youth movement called hip-hop culture, based on DJing, breakdancing, MCing, and graffiti.",
+                "It replaced gang violence with music, dance, art, and style.",
+                "The most popular block parties were those hosted by DJ Kool Herc, who is regarded as the founding father of hip-hop.",
+                "Herc’s party for his sister’s birthday in August 1973 is now known as the birthplace of hip-hop music because of his new DJ technique.",
+                "At this party, using two turntables at the same time, Herc played two copies of the same record and then switched between them to extend the drum section known as the break.",
+                "No longer did people have to stop dancing at the end of the record while the DJ changed the LP disc.",
+                "Kool Herc’s style of DJing quickly became influential in the rise of hip-hop music and breakdancing."
+            ],
+            paragraph4: [
+                "The break section became the most anticipated part of a song.",
+                "People would form dancer circles and use the break to show off their individual dancing skills.",
+                "Kool Herc named the people dancing to his music B-Boys and B-Girls, short for Break-Boys and Break-Girls.",
+                "These people began to dance in groups in the streets and build a street dance battle culture.",
+                "DJs like Kool Herc would speak in rhythm and rhyme over instrumental parts of songs to excite the crowd.",
+                "They would shout phrases like “To the beat” and “You don’t stop!”",
+                "This was the beginning of rapping or MCing.",
+                "When DJs couldn’t do both DJing and rhythmic shouting at the same time, they asked a friend to take the role of addressing the audience, that is, of the Master of Ceremonies or MC, at their parties.",
+                "This separate role became MCing."
+            ],
+            paragraph5: [
+                "Then where did the word hip-hop originate from?",
+                "Nobody knows the exact origin, but it is said that the word hip-hop was first used at a block party.",
+                "A young man at the party was about to join the army.",
+                "His good friend, the MC of the party, reminded him in a jokey way that his days of freedom were over by moving across the stage like a military instructor to the beat, chanting, “Hip-hop-hip-hop-hip-hop.”",
+                "The crowd loved it.",
+                "After that, MCs tried out new lines at parties like “Hip, hop, hippy to the hippy hop-bop,” “I said a hip-hop, a hibbit, hibby-dibby, hip-hip-hop and you don’t stop.”",
+                "Such lines became a standard part of rap and were included in the lyrics of the first recorded hip-hop album, Rapper’s Delight (1979), which was an immediate success.",
+                "The new music and dancing spread very fast.",
+                "There was a sharp unexplained decline in violence during the 1980s in New York.",
+                "One police officer asked a boy on the street if he knew why.",
+                "The boy said, “It’s because they’re dancing.”"
+            ],
+            paragraph6: [
+                "Rap lyrics, which started as the party chants of early hip-hop, typically focused on having a good time together and boasting about the ability of the DJ or the rapper.",
+                "However, a significant shift occurred during the rise of hip-hop music in the 1980s.",
+                "Most importantly, the appearance of The Message by the group Grandmaster Flash and Furious Five in 1982 was groundbreaking.",
+                "This song’s powerful lyrics detailed the harsh realities of life in the ghetto, including the sad story of a boy who was born there and had to live and die as a second-class citizen.",
+                "With this song, hip-hop, whose original aim was creating peace through partying, started a new tradition of social criticism against injustice.",
+                "The Message became one of the most influential rap singles of all time, and was followed by many hip-hop songs that confronted racial discrimination in the 1980s and 1990s.",
+                "At the same time, their music with its rhythmic beat and rapping made people move or dance.",
+                "People heard the social message while moving to the beat."
+            ],
+            paragraph7: [
+                "Also, a new attitude gradually emerged in hip-hop lyrics, which can be summarized as “respect.”",
+                "Hip-hop music began to be a way to express respect for one another, and particularly for hip-hop pioneers.",
+                "For rappers, the pioneers are heroes who overcame hardship and injustice and went on to create new music and culture.",
+                "Therefore, many hip-hoppers agree that they cannot have too much respect for these heroes.",
+                "The phrase “something from nothing,” often used to summarize the genre’s history, is also an expression of admiration for early hip-hoppers, who developed a new culture in the ghetto despite very limited resources.",
+                "Rappers also proudly expressed their feeling that they, too, and perhaps the audience, had suffered and survived in a similar way to the pioneers.",
+                "This is why the message of respect is about both self-worth and respect for others.",
+                "The importance of the idea of respect in hip-hop cannot be emphasized strongly enough."
+            ],
+            paragraph8: [
+                "“The HipHop Declaration of Peace,” presented to the UN on May 16th, 2001, officially recognized hip-hop as an international culture of peace.",
+                "This document reminds us of hip-hop’s original mission to bring peace to the Bronx, implying global respect for hip-hop history.",
+                "When hip-hop artist Kendrick Lamar was awarded a Pulitzer Prize for Music in 2018, it was another important event.",
+                "It meant that hip-hop, which started as underground music, had become a major art form like classical music.",
+                "If hip-hop music was born as part of a cultural movement for peace in the 1970s, today more and more people regard it as a powerful means to express oneself, fight against injustice, bring about change through social messages, and still be engaged with music and connected to others.",
+                "With its unique and growing appeal, hip-hop continues to be a global phenomenon."
+            ]
+        };
+
+        let currentExercise = [];
+        let correctOrder = [];
+        let userOrder = [];
+        let selectedSentence = null;
+
+        const exerciseSelect = document.getElementById('exerciseSelect');
+        const shuffleBtn = document.getElementById('shuffleBtn');
+        const checkBtn = document.getElementById('checkBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const exerciseArea = document.getElementById('exerciseArea');
+        const scrambledContainer = document.getElementById('scrambledContainer');
+        const orderedContainer = document.getElementById('orderedContainer');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const scoreElement = document.getElementById('score');
+        const feedback = document.getElementById('feedback');
+
+        exerciseSelect.addEventListener('change', function() {
+            const selectedExercise = this.value;
+            if (selectedExercise) loadExercise(selectedExercise);
+        });
+
+        shuffleBtn.addEventListener('click', shuffleSentences);
+        checkBtn.addEventListener('click', checkAnswer);
+        resetBtn.addEventListener('click', resetExercise);
+
+        function loadExercise(exerciseKey) {
+            currentExercise = [...exercises[exerciseKey]];
+            correctOrder = [...currentExercise];
+            userOrder = [];
+            selectedSentence = null;
+            shuffleSentences();
+            exerciseArea.style.display = 'block';
+            shuffleBtn.disabled = false;
+            resetBtn.disabled = false;
+            scoreDisplay.style.display = 'none';
+            hideFeedback();
+        }
+
+        function shuffleSentences() {
+            const shuffled = [...currentExercise];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            displayScrambledSentences(shuffled);
+            createDropZones();
+            checkBtn.disabled = true;
+            userOrder = [];
+            selectedSentence = null;
+        }
+
+        function displayScrambledSentences(sentences) {
+            scrambledContainer.innerHTML = '';
+            sentences.forEach(sentence => {
+                const sentenceDiv = document.createElement('div');
+                sentenceDiv.className = 'sentence-item';
+                sentenceDiv.textContent = sentence;
+                sentenceDiv.dataset.sentence = sentence;
+                sentenceDiv.addEventListener('click', function() { selectSentence(this); });
+                scrambledContainer.appendChild(sentenceDiv);
+            });
+        }
+
+        function selectSentence(element) {
+            document.querySelectorAll('.sentence-item.selected').forEach(item => item.classList.remove('selected'));
+            document.querySelectorAll('.drop-zone.highlight').forEach(zone => zone.classList.remove('highlight'));
+            element.classList.add('selected');
+            selectedSentence = element;
+            document.querySelectorAll('.drop-zone').forEach(zone => zone.classList.add('highlight'));
+            showFeedback('선택된 문장을 배치할 위치를 클릭하세요!', 'correct');
+        }
+
+        function createDropZones() {
+            orderedContainer.innerHTML = '';
+            for (let i = 0; i < currentExercise.length; i++) {
+                const dropZone = document.createElement('div');
+                dropZone.className = 'drop-zone';
+                dropZone.textContent = `문장 ${i + 1}을 여기에 배치하세요`;
+                dropZone.dataset.position = i;
+                dropZone.addEventListener('click', function() { handleDropZoneClick(this); });
+                orderedContainer.appendChild(dropZone);
+            }
+        }
+
+        function handleDropZoneClick(dropZone) {
+            if (!selectedSentence) {
+                showFeedback('먼저 왼쪽에서 문장을 선택하세요!', 'incorrect');
+                return;
+            }
+            const sentence = selectedSentence.dataset.sentence;
+            const position = parseInt(dropZone.dataset.position);
+            const sentenceDiv = document.createElement('div');
+            sentenceDiv.className = 'sentence-item';
+            sentenceDiv.textContent = sentence;
+            sentenceDiv.dataset.sentence = sentence;
+            sentenceDiv.dataset.position = position;
+            sentenceDiv.addEventListener('click', function() { returnSentence(this); });
+            dropZone.parentNode.replaceChild(sentenceDiv, dropZone);
+            selectedSentence.remove();
+            selectedSentence = null;
+            document.querySelectorAll('.sentence-item.selected').forEach(item => item.classList.remove('selected'));
+            document.querySelectorAll('.drop-zone.highlight').forEach(zone => zone.classList.remove('highlight'));
+            updateUserOrder();
+            hideFeedback();
+        }
+
+        function returnSentence(sentenceElement) {
+            const position = parseInt(sentenceElement.dataset.position);
+            const sentence = sentenceElement.dataset.sentence;
+            const dropZone = document.createElement('div');
+            dropZone.className = 'drop-zone';
+            dropZone.textContent = `문장 ${position + 1}을 여기에 배치하세요`;
+            dropZone.dataset.position = position;
+            dropZone.addEventListener('click', function() { handleDropZoneClick(this); });
+            sentenceElement.parentNode.replaceChild(dropZone, sentenceElement);
+            const newSentenceDiv = document.createElement('div');
+            newSentenceDiv.className = 'sentence-item';
+            newSentenceDiv.textContent = sentence;
+            newSentenceDiv.dataset.sentence = sentence;
+            newSentenceDiv.addEventListener('click', function() { selectSentence(this); });
+            scrambledContainer.appendChild(newSentenceDiv);
+            selectedSentence = null;
+            document.querySelectorAll('.sentence-item.selected').forEach(item => item.classList.remove('selected'));
+            document.querySelectorAll('.drop-zone.highlight').forEach(zone => zone.classList.remove('highlight'));
+            updateUserOrder();
+        }
+
+        function updateUserOrder() {
+            userOrder = [];
+            const placedSentences = orderedContainer.querySelectorAll('.sentence-item');
+            placedSentences.forEach(sentence => {
+                const position = parseInt(sentence.dataset.position);
+                userOrder[position] = sentence.dataset.sentence;
+            });
+            const hasEmptySlots = userOrder.includes(undefined) || userOrder.length !== currentExercise.length;
+            checkBtn.disabled = hasEmptySlots;
+        }
+
+        function checkAnswer() {
+            let correct = 0;
+            const placedSentences = orderedContainer.querySelectorAll('.sentence-item');
+            placedSentences.forEach(sentence => {
+                sentence.classList.remove('correct-sentence', 'incorrect-sentence');
+                const position = parseInt(sentence.dataset.position);
+                if (sentence.dataset.sentence === correctOrder[position]) {
+                    sentence.classList.add('correct-sentence');
+                    correct++;
+                } else {
+                    sentence.classList.add('incorrect-sentence');
+                }
+            });
+            const score = Math.round((correct / currentExercise.length) * 100);
+            scoreElement.textContent = score;
+            scoreDisplay.style.display = 'block';
+            if (score === 100) {
+                showFeedback('🎉 완벽합니다! 모든 문장을 올바르게 배열했습니다!', 'correct');
+            } else if (score >= 70) {
+                showFeedback(`👍 잘했습니다! ${correct}/${currentExercise.length}개 정답입니다.`, 'correct');
+            } else {
+                showFeedback(`💪 다시 한번 시도해보세요! ${correct}/${currentExercise.length}개 정답입니다.`, 'incorrect');
+            }
+        }
+
+        function resetExercise() {
+            const selectedExercise = exerciseSelect.value;
+            if (selectedExercise) loadExercise(selectedExercise);
+            hideFeedback();
+        }
+
+        function showFeedback(message, type) {
+            feedback.textContent = message;
+            feedback.className = `feedback ${type}`;
+        }
+
+        function hideFeedback() {
+            feedback.className = 'feedback';
+        }
+    </script>
+
+
+</body></html>
