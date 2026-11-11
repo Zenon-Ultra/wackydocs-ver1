@@ -2,7 +2,7 @@
 <html lang="ko"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 1: Connecting Through Pop Culture - 문장 순서 배열 연습</title>
+    <title>Lesson 3: Living With Viruses - 문장 순서 배열 연습</title>
     <link rel="stylesheet" href="shared.css">
     <style>
         :root {
@@ -21,15 +21,15 @@
     <div class="container">
         <div class="header">
             <a href="main.html" class="back-btn">← 목록으로</a>
-            <div class="header-badge">🎧 Lesson 1 · YBM(박준언)</div>
-            <h1>Connecting Through Pop Culture</h1>
-            <p>The Story of Hip-hop Music · 문장들의 문맥 흐름을 파악하여 올바른 순서로 배열해보세요</p>
+            <div class="header-badge">📖 Lesson 3 · YBM(박준언)</div>
+            <h1>Living With Viruses</h1>
+            <p>The Varied World of Viruses</p>
         </div>
 
         <div class="exercise-container">
             <div class="exercise-info">
                 <h3>📚 연습 방법</h3>
-                <p>1. 아래에서 연습할 문단을 선택하세요<br>
+                <p>1. 아래에서 연습할 본문 구간을 선택하세요<br>
                 2. 왼쪽의 문장을 클릭해서 선택한 후, 오른쪽의 원하는 위치를 클릭하세요<br>
                 3. 잘못 배치한 문장은 클릭해서 다시 왼쪽으로 돌려보낼 수 있습니다<br>
                 4. '정답 확인' 버튼을 눌러 결과를 확인하세요</p>
@@ -37,15 +37,17 @@
 
             <div class="exercise-select">
                 <select id="exerciseSelect">
-                    <option value="">연습할 문단을 선택하세요</option>
-                    <option value="paragraph1">Paragraph 1: An Urban Slum & Despair - 7문장</option>
-                    <option value="paragraph2">Paragraph 2: Peace Treaty & Birth of Hip-Hop - 8문장</option>
-                    <option value="paragraph3">Paragraph 3: Block Parties & DJ Kool Herc's Break - 10문장</option>
-                    <option value="paragraph4">Paragraph 4: Breakdancing & The Beginning of MCing - 9문장</option>
-                    <option value="paragraph5">Paragraph 5: The Origin of the Word Hip-Hop & Decline in Violence - 11문장</option>
-                    <option value="paragraph6">Paragraph 6: The Messages of Hip-Hop - 8문장</option>
-                    <option value="paragraph7">Paragraph 7: The Attitude of "Respect" - 8문장</option>
-                    <option value="paragraph8">Paragraph 8: Hip-Hop in the 21st Century - 6문장</option>
+                    <option value="">연습할 본문 구간을 선택하세요</option>
+                    <option value="paragraph1">본문 1 · 바이러스와 인류 (4문장)</option>
+                    <option value="paragraph2">본문 2 · 바이러스의 전파 (8문장)</option>
+                    <option value="paragraph3">본문 3 · Keepers of the Earth · 개체 수 조절 (8문장)</option>
+                    <option value="paragraph4">본문 4 · 산소 공급 (5문장)</option>
+                    <option value="paragraph5">본문 5 · 곤충과 생태계 (5문장)</option>
+                    <option value="paragraph6">본문 6 · Helpers of Evolution · 진화 (4문장)</option>
+                    <option value="paragraph7">본문 7 · 태반의 발달 (6문장)</option>
+                    <option value="paragraph8">본문 8 · Means for Cures · 유전자 치료 (8문장)</option>
+                    <option value="paragraph9">본문 9 · 암 치료 연구 (4문장)</option>
+                    <option value="paragraph10">본문 10 · 바이러스 다양성 (3문장)</option>
                 </select>
             </div>
 
@@ -75,89 +77,81 @@
     </div>
 
     <script>
-       const exercises = {
+        const exercises = {
             paragraph1: [
-                "Imagine an urban area that is fast becoming a slum after an economic recession.",
-                "Businesses close their doors and building owners have left.",
-                "The area is full of abandoned buildings.",
-                "There is no heating even in winter.",
-                "Only those who can’t afford to move out remain.",
-                "Unemployment is high, many gangs emerge, and gang violence between young people becomes an everyday thing.",
-                "Despair is on every street corner."
+                "It appears that viruses exist solely to bring suffering to humanity.",
+                "The 1918 influenza pandemic is estimated to have killed 50 to 100 million people.",
+                "Smallpox claimed the lives of a further 200 million people in the 20th century alone, according to estimates.",
+                "And of course, the recent COVID-19 pandemic has taken several million lives, affecting almost every aspect of human life worldwide."
             ],
             paragraph2: [
-                "One day, however, a gang called the Ghetto Brothers, which is respected because of its free meal and medical care programs, decides to stop fighting and instead persuade young people to unite and create a better community.",
-                "They suggest a peace treaty.",
-                "“This is for peace, men. The violence took away our brothers. We’re not gangsters anymore. We’ve got to make this town a better place to live.”",
-                "Thanks to these new voices, gang leaders from all over the area sign the treaty.",
-                "Never again will they use violence to solve their disputes.",
-                "This is the Bronx in the New York of the early 1970s, where hip-hop music was born as a major part of a new culture of peace created by African Americans and immigrants.",
-                "The story of hip-hop, now one of the world’s most dominant music genres, is a fascinating one.",
-                "Let’s explore it."
+                "Outbreaks of viral diseases are frequently linked to contact with wild animals such as bats.",
+                "Such contacts allow new viruses to enter human bodies that have no prior immunity to such viruses.",
+                "Historically, natural barriers such as mountains and forests prevented animal viruses from infecting humans.",
+                "Industrialization has destroyed these barriers, and climate change has pushed some wild animals out of their original habitats.",
+                "These changes have resulted in an increase in interactions between human and wild animals, meaning more opportunities for the viruses present in wild animals to spread to humans.",
+                "This is the primary reason for scientists’ concern that pandemics may increase in the future.",
+                "Then, is the virus truly a harmful presence to humans?",
+                "Not necessarily."
             ],
             paragraph3: [
-                "After the peace treaty, the gangs that had fought one another started partying together.",
-                "Abandoned buildings and parking lots were used for events called block parties.",
-                "What eventually emerged from these parties?",
-                "A vibrant youth movement called hip-hop culture, based on DJing, breakdancing, MCing, and graffiti.",
-                "It replaced gang violence with music, dance, art, and style.",
-                "The most popular block parties were those hosted by DJ Kool Herc, who is regarded as the founding father of hip-hop.",
-                "Herc’s party for his sister’s birthday in August 1973 is now known as the birthplace of hip-hop music because of his new DJ technique.",
-                "At this party, using two turntables at the same time, Herc played two copies of the same record and then switched between them to extend the drum section known as the break.",
-                "No longer did people have to stop dancing at the end of the record while the DJ changed the LP disc.",
-                "Kool Herc’s style of DJing quickly became influential in the rise of hip-hop music and breakdancing."
+                "What is less commonly known is that viruses play crucial roles in supporting much of life on Earth.",
+                "This is because researchers have only recently begun investigating the viruses that sustain us and the planet, instead of just those that harm us.",
+                "Therefore, scientists have much more to learn about viruses than they currently know.",
+                "What they do know is that viruses act as the primary regulators of bacterial and insect populations.",
+                "Since viruses do not have reproductive functions on their own, they steal the reproductive functions of other organisms to multiply.",
+                "Some types of viruses use bacteria.",
+                "When the virus continues to multiply inside the bacteria, the bacteria eventually die, and the newly produced viruses go on to infect other bacteria.",
+                "This whole process helps viruses control the excessive growth of certain bacteria."
             ],
             paragraph4: [
-                "The break section became the most anticipated part of a song.",
-                "People would form dancer circles and use the break to show off their individual dancing skills.",
-                "Kool Herc named the people dancing to his music B-Boys and B-Girls, short for Break-Boys and Break-Girls.",
-                "These people began to dance in groups in the streets and build a street dance battle culture.",
-                "DJs like Kool Herc would speak in rhythm and rhyme over instrumental parts of songs to excite the crowd.",
-                "They would shout phrases like “To the beat” and “You don’t stop!”",
-                "This was the beginning of rapping or MCing.",
-                "When DJs couldn’t do both DJing and rhythmic shouting at the same time, they asked a friend to take the role of addressing the audience, that is, of the Master of Ceremonies or MC, at their parties.",
-                "This separate role became MCing."
+                "The greater significance of viruses infecting bacteria is that they play a vital role in supplying oxygen to our planet.",
+                "About half of the oxygen on Earth is produced by plankton in the oceans, and the primary food source for these plankton is nutrients released from bacteria killed by viral infections.",
+                "If viruses did not infect and kill bacteria, there would be no bacterial remains, leading to a lack of plankton.",
+                "Without plankton, half of Earth’s oxygen would disappear.",
+                "In short, without viruses, the lack of oxygen would make it impossible for humans to survive."
             ],
             paragraph5: [
-                "Then where did the word hip-hop originate from?",
-                "Nobody knows the exact origin, but it is said that the word hip-hop was first used at a block party.",
-                "A young man at the party was about to join the army.",
-                "His good friend, the MC of the party, reminded him in a jokey way that his days of freedom were over by moving across the stage like a military instructor to the beat, chanting, “Hip-hop-hip-hop-hip-hop.”",
-                "The crowd loved it.",
-                "After that, MCs tried out new lines at parties like “Hip, hop, hippy to the hippy hop-bop,” “I said a hip-hop, a hibbit, hibby-dibby, hip-hip-hop and you don’t stop.”",
-                "Such lines became a standard part of rap and were included in the lyrics of the first recorded hip-hop album, Rapper’s Delight (1979), which was an immediate success.",
-                "The new music and dancing spread very fast.",
-                "There was a sharp unexplained decline in violence during the 1980s in New York.",
-                "One police officer asked a boy on the street if he knew why.",
-                "The boy said, “It’s because they’re dancing.”"
+                "Insect species populations are also regulated by viruses.",
+                "When a specific type of insect increases excessively, the viruses that infect those insects also increase, reducing their numbers.",
+                "This, in turn, creates room for other types of insects to flourish.",
+                "Considering the chain of food in nature, it would not be difficult to assume that viruses fulfill important functions in regulating other species.",
+                "We have just started to understand their various roles in the ecosystem."
             ],
             paragraph6: [
-                "Rap lyrics, which started as the party chants of early hip-hop, typically focused on having a good time together and boasting about the ability of the DJ or the rapper.",
-                "However, a significant shift occurred during the rise of hip-hop music in the 1980s.",
-                "Most importantly, the appearance of The Message by the group Grandmaster Flash and Furious Five in 1982 was groundbreaking.",
-                "This song’s powerful lyrics detailed the harsh realities of life in the ghetto, including the sad story of a boy who was born there and had to live and die as a second-class citizen.",
-                "With this song, hip-hop, whose original aim was creating peace through partying, started a new tradition of social criticism against injustice.",
-                "The Message became one of the most influential rap singles of all time, and was followed by many hip-hop songs that confronted racial discrimination in the 1980s and 1990s.",
-                "At the same time, their music with its rhythmic beat and rapping made people move or dance.",
-                "People heard the social message while moving to the beat."
+                "Another less recognized role of viruses is their contribution to the evolution of life on Earth.",
+                "When a virus infects a reproductive cell of its host, such as an egg or sperm, the viral DNA may be passed down to the host’s offspring.",
+                "The insertion of new DNA into genomes is a significant mechanism of evolution.",
+                "Without viruses, in other words, the evolutionary potential for all life on the planet would be impacted."
             ],
             paragraph7: [
-                "Also, a new attitude gradually emerged in hip-hop lyrics, which can be summarized as “respect.”",
-                "Hip-hop music began to be a way to express respect for one another, and particularly for hip-hop pioneers.",
-                "For rappers, the pioneers are heroes who overcame hardship and injustice and went on to create new music and culture.",
-                "Therefore, many hip-hoppers agree that they cannot have too much respect for these heroes.",
-                "The phrase “something from nothing,” often used to summarize the genre’s history, is also an expression of admiration for early hip-hoppers, who developed a new culture in the ghetto despite very limited resources.",
-                "Rappers also proudly expressed their feeling that they, too, and perhaps the audience, had suffered and survived in a similar way to the pioneers.",
-                "This is why the message of respect is about both self-worth and respect for others.",
-                "The importance of the idea of respect in hip-hop cannot be emphasized strongly enough."
+                "One example of viruses’ contributions to evolution is their role in the development of the placenta in mammals.",
+                "A placenta is a complex organ that helps the fetus grow securely inside its mother’s body.",
+                "It facilitates the exchange of oxygen, nutrients, and waste products while protecting the fetus from the mother’s immune system.",
+                "In the early days of evolution, female animals had to leave their offspring in one location, like eggs in a nest, making them vulnerable to predators.",
+                "After the emergence of the placenta, females were able to carry their young inside their bodies safely from one location to another.",
+                "Viruses that infected our remote ancestors more than 130 million years ago have been reported to have served a key function in the development of this vital organ."
             ],
             paragraph8: [
-                "“The HipHop Declaration of Peace,” presented to the UN on May 16th, 2001, officially recognized hip-hop as an international culture of peace.",
-                "This document reminds us of hip-hop’s original mission to bring peace to the Bronx, implying global respect for hip-hop history.",
-                "When hip-hop artist Kendrick Lamar was awarded a Pulitzer Prize for Music in 2018, it was another important event.",
-                "It meant that hip-hop, which started as underground music, had become a major art form like classical music.",
-                "If hip-hop music was born as part of a cultural movement for peace in the 1970s, today more and more people regard it as a powerful means to express oneself, fight against injustice, bring about change through social messages, and still be engaged with music and connected to others.",
-                "With its unique and growing appeal, hip-hop continues to be a global phenomenon."
+                "As scientific knowledge about viruses continues to expand, new opportunities for utilizing them in the battle against diseases are arising.",
+                "Of notable interest are the areas of gene therapy and cancer treatment.",
+                "Genes can be compared to instruction guides that govern how our bodies function.",
+                "Sometimes, people are born with genetic disorders, which can lead to health problems.",
+                "Gene therapy steps in to fix these issues.",
+                "The essence of gene therapy lies in delivering corrected genetic instructions to a patient’s cells, enabling them to function properly.",
+                "In this process, specially modified viruses are used as one of the carriers of the genetic instructions.",
+                "If the patient’s cells function properly, it can potentially help the body fight off certain diseases."
+            ],
+            paragraph9: [
+                "Using viruses to treat cancer, another use of viruses, is based on the notion of utilizing their natural ability to infect and kill cells.",
+                "If successful, viruses can be manipulated to specifically target and destroy cancer cells while leaving healthy cells unharmed.",
+                "The use of viruses in gene therapy and cancer treatment is still in the early stages.",
+                "However, many researchers are involved in hundreds of projects with the goal of discovering cures for diseases that were once thought to be incurable."
+            ],
+            paragraph10: [
+                "We have yet to find out how many virus types even exist, let alone the characteristics of each of them.",
+                "The more we learn about viruses, however, the better equipped we will be to use certain viruses for beneficial purposes and to develop defenses against viruses that could lead to the next pandemic.",
+                "More than that, learning more about viral diversity will help us reach a deeper understanding of the working of our planet, ecosystems, and our own bodies."
             ]
         };
 
