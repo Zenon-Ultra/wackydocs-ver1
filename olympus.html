@@ -26,7 +26,7 @@
             <a href="main.html" class="back-btn">← 목록으로</a>
             <div class="header-badge">📚 EBS 수능특강 Light</div>
             <h1>수능특강 Light 영어독해연습</h1>
-            <p>7강 (Exercise 01 ~ 06) · 개인 학습용 원문을 입력해 문장 순서를 연습하세요</p>
+            <p>7강 (Exercise 01 ~ 06) · 논리적 연결성과 문맥 흐름을 파악하여 올바른 순서로 배열해보세요</p>
         </div>
 
         <div class="exercise-container">
@@ -45,20 +45,8 @@
                     <option value="ch07_ex02">7강 - Exercise 02</option>
                     <option value="ch07_ex03">7강 - Exercise 03</option>
                     <option value="ch07_ex04">7강 - Exercise 04</option>
-                    <option value="ch07_ex05_06">7강 - Exercise 05~06 (연결 지문)</option>
+                    <option value="ch07_ex05_06">7강 - Exercise 05~06</option>
                 </select>
-            </div>
-
-            <div id="passageEditor" style="display:none; margin: 20px 0; padding: 20px; background: var(--surface, #fff); border: 1px solid var(--border-subtle, #dbe3ea); border-radius: 12px;">
-                <h3 style="margin-top:0;">7강 본문 등록</h3>
-                <p>교재의 영어 문장을 <strong>원래 순서대로 한 줄에 한 문장씩</strong> 붙여넣으세요. 입력 내용은 서버나 GitHub로 전송하지 않고 이 브라우저에만 저장합니다.</p>
-                <label for="passageText" style="display:block; font-weight:600; margin-bottom:8px;">선택한 Exercise의 영어 문장</label>
-                <textarea id="passageText" rows="9" style="box-sizing:border-box; width:100%; padding:12px; border:1px solid #94a3b8; border-radius:8px; font-size:15px; line-height:1.6;" placeholder="Sentence 1.&#10;Sentence 2.&#10;Sentence 3."></textarea>
-                <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;">
-                    <button class="btn" id="savePassageBtn" type="button">본문 저장하고 연습하기</button>
-                    <button class="btn" id="deletePassageBtn" type="button">이 지문 삭제</button>
-                </div>
-                <p id="importStatus" role="status" aria-live="polite" style="margin:12px 0 0; font-size:14px;"></p>
             </div>
 
             <div class="controls">
@@ -87,12 +75,15 @@
     </div>
 
     <script>
-        // The previous chapter's copyrighted passages have been removed.
-        // Each learner imports their own copy locally; no textbook text is hosted.
-        const exercises = Object.create(null);
-        const storagePrefix = 'wackydocs_ch07_local_';
+        const exercises = {
+            ch07_ex01: [],
+            ch07_ex02: [],
+            ch07_ex03: [],
+            ch07_ex04: [],
+            ch07_ex05_06: []
+        };
 
-        let currentExercise = [];
+                let currentExercise = [];
         let correctOrder = [];
         let userOrder = [];
         let selectedSentence = null;
@@ -108,82 +99,19 @@
         const scoreElement = document.getElementById('score');
         const feedback = document.getElementById('feedback');
 
-        const passageEditor = document.getElementById('passageEditor');
-        const passageText = document.getElementById('passageText');
-        const importStatus = document.getElementById('importStatus');
-        const savePassageBtn = document.getElementById('savePassageBtn');
-        const deletePassageBtn = document.getElementById('deletePassageBtn');
-
-        function getStoredText(key) {
-            try { return localStorage.getItem(storagePrefix + key) || ''; }
-            catch (error) { return exercises[key] ? exercises[key].join('\n') : ''; }
-        }
-
-        function parseSentences(text) {
-            return text.split(/\r?\n/)
-                .map(line => line.trim().replace(/^(?:[①-⑳]|\d+[.)]|[-•])\s*/, '').trim())
-                .filter(Boolean);
-        }
-
-        function selectExercise() {
-            const key = exerciseSelect.value;
-            passageEditor.style.display = key ? 'block' : 'none';
-            exerciseArea.style.display = 'none';
-            scoreDisplay.style.display = 'none';
-            shuffleBtn.disabled = true;
-            checkBtn.disabled = true;
-            resetBtn.disabled = true;
-            hideFeedback();
-            importStatus.textContent = '';
-            if (!key) return;
-            const stored = getStoredText(key);
-            passageText.value = stored;
-            if (stored) {
-                const sentences = parseSentences(stored);
-                if (sentences.length >= 2 && new Set(sentences).size === sentences.length) {
-                    exercises[key] = sentences;
-                    importStatus.textContent = '저장된 ' + sentences.length + '개 문장을 불러왔습니다. 아래에서 연습하거나 본문을 수정할 수 있습니다.';
-                    loadExercise(key);
-                }
+        exerciseSelect.addEventListener('change', function () {
+            const selectedExercise = this.value;
+            if (selectedExercise && exercises[selectedExercise]?.length > 1) {
+                loadExercise(selectedExercise);
             } else {
-                importStatus.textContent = '아직 본문이 등록되지 않았습니다. 입력 후 저장하세요.';
+                exerciseArea.style.display = 'none';
+                shuffleBtn.disabled = true;
+                checkBtn.disabled = true;
+                resetBtn.disabled = true;
+                scoreDisplay.style.display = 'none';
+                if (selectedExercise) showFeedback('7강 원문이 아직 등록되지 않았습니다.', 'incorrect');
+                else hideFeedback();
             }
-        }
-
-        exerciseSelect.addEventListener('change', selectExercise);
-        savePassageBtn.addEventListener('click', function () {
-            const key = exerciseSelect.value;
-            if (!key) return;
-            const sentences = parseSentences(passageText.value);
-            if (sentences.length < 2) {
-                importStatus.textContent = '문장을 두 개 이상, 한 줄에 하나씩 입력하세요.';
-                return;
-            }
-            if (new Set(sentences).size !== sentences.length) {
-                importStatus.textContent = '완전히 같은 문장이 중복되어 있습니다. 중복 문장을 확인하세요.';
-                return;
-            }
-            exercises[key] = sentences;
-            try {
-                localStorage.setItem(storagePrefix + key, sentences.join('\n'));
-                importStatus.textContent = sentences.length + '개 문장을 이 브라우저에 저장했습니다.';
-            } catch (error) {
-                importStatus.textContent = '저장소 접근이 제한되어 현재 탭에서만 연습할 수 있습니다.';
-            }
-            loadExercise(key);
-        });
-        deletePassageBtn.addEventListener('click', function () {
-            const key = exerciseSelect.value;
-            if (!key) return;
-            delete exercises[key];
-            try { localStorage.removeItem(storagePrefix + key); } catch (error) {}
-            passageText.value = '';
-            exerciseArea.style.display = 'none';
-            scoreDisplay.style.display = 'none';
-            shuffleBtn.disabled = true;
-            resetBtn.disabled = true;
-            checkBtn.disabled = true;
-            importStatus.textContent = '이 Exercise의 브라우저 저장 내용을 삭제했습니다.';
         });
 
         shuffleBtn.addEventListener('click', shuffleSentences);
