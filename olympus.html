@@ -26,7 +26,7 @@
             <a href="main.html" class="back-btn">← 목록으로</a>
             <div class="header-badge">📚 EBS 수능특강 Light</div>
             <h1>수능특강 Light 영어독해연습</h1>
-            <p>6강 (Exercise 01 ~ 06) · 논리적 연결성과 문맥 흐름을 파악하여 올바른 순서로 배열해보세요</p>
+            <p>7강 (Exercise 01 ~ 06) · 개인 학습용 원문을 입력해 문장 순서를 연습하세요</p>
         </div>
 
         <div class="exercise-container">
@@ -41,13 +41,24 @@
             <div class="exercise-select">
                 <select id="exerciseSelect">
                     <option value="">연습할 지문을 선택하세요</option>
-                    <option value="ch06_ex01">6강 - Exercise 01: 교실 내 독서 도제 수업 (6문장)</option>
-                    <option value="ch06_ex02">6강 - Exercise 02: 18세기와 19세기 작가들의 변화 (5문장)</option>
-                    <option value="ch06_ex03">6강 - Exercise 03: 범죄 개념의 상대성과 환상 (7문장)</option>
-                    <option value="ch06_ex04">6강 - Exercise 04: 지식을 넘어선 이해의 본질 (10문장)</option>
-                    <option value="ch06_ex05_06">6강 - Exercise 05~06: 문학 번역에서 국내적 잉여의 발생 (전체 9문장)</option>
-                    <option value="ch06_ex05">6강 - Exercise 05~06 : 번역과 '잉여'의 개념 (5문장)</option>
+                    <option value="ch07_ex01">7강 - Exercise 01</option>
+                    <option value="ch07_ex02">7강 - Exercise 02</option>
+                    <option value="ch07_ex03">7강 - Exercise 03</option>
+                    <option value="ch07_ex04">7강 - Exercise 04</option>
+                    <option value="ch07_ex05_06">7강 - Exercise 05~06 (연결 지문)</option>
                 </select>
+            </div>
+
+            <div id="passageEditor" style="display:none; margin: 20px 0; padding: 20px; background: var(--surface, #fff); border: 1px solid var(--border-subtle, #dbe3ea); border-radius: 12px;">
+                <h3 style="margin-top:0;">7강 본문 등록</h3>
+                <p>교재의 영어 문장을 <strong>원래 순서대로 한 줄에 한 문장씩</strong> 붙여넣으세요. 입력 내용은 서버나 GitHub로 전송하지 않고 이 브라우저에만 저장합니다.</p>
+                <label for="passageText" style="display:block; font-weight:600; margin-bottom:8px;">선택한 Exercise의 영어 문장</label>
+                <textarea id="passageText" rows="9" style="box-sizing:border-box; width:100%; padding:12px; border:1px solid #94a3b8; border-radius:8px; font-size:15px; line-height:1.6;" placeholder="Sentence 1.&#10;Sentence 2.&#10;Sentence 3."></textarea>
+                <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;">
+                    <button class="btn" id="savePassageBtn" type="button">본문 저장하고 연습하기</button>
+                    <button class="btn" id="deletePassageBtn" type="button">이 지문 삭제</button>
+                </div>
+                <p id="importStatus" role="status" aria-live="polite" style="margin:12px 0 0; font-size:14px;"></p>
             </div>
 
             <div class="controls">
@@ -76,56 +87,10 @@
     </div>
 
     <script>
-        const exercises = {
-            ch06_ex01: [
-                "Surrounding the social, personal, cognitive, and knowledge-building dimensions of classroom life is reading itself.",
-                "Teachers extend students' reading experiences and opportunities, making it a key enterprise of their instruction to talk together about making meaning with academic materials.",
-                "When reading and collaborative work with texts becomes a key part of academic learning in the classroom, teachers provide support for students to grow as readers.",
-                "Texts and talk about texts infuse the learning that students engage in and provide the context for their ongoing reading apprenticeship.",
-                "Providing more focus on reading and talk about reading during classroom lessons gives teachers the opportunity to mentor students in the reasoning and problem-solving skills they need to master.",
-                "More reading, more text-focused discussion, and more talk about reading and problem-solving processes ─ these distinguish reading apprenticeship classrooms from content area classes in which students are expected, but not taught, to handle complex reading tasks."
-            ],
-            ch06_ex02: [
-                "Eighteenth-century writers were almost all nobles: gentlemen-scholars who wrote for their own amusement and for the edification of others.",
-                "They possessed the funds to support lives of leisure and the cultivation to write with style, and thus had immediate access to both financial support and content.",
-                "By contrast, mid-nineteenth-century writers were more heterogeneous: although some were members of the social and economic elite, an increasing number earned their living by writing.",
-                "Mid-nineteenth-century writers included not only belletrists but also hack journalists, technical writers, and bohemians; thus, their economic, social, and cultural resources varied considerably.",
-                "This means that writers became generally less likely to possess independent wealth or useful social connections and more likely to be restricted in their cultural resources to narrower areas of practical expertise."
-            ],
-            ch06_ex03: [
-                "Politicians tend to speak of crime as if it were a simple, obvious concept.",
-                "When Donald Trump opened his presidential election campaign in 2015 with the claim that Mexican immigrants were 'bringing crime' across the border, American voters may have agreed or disagreed with him.",
-                "But they would not, generally speaking, have been confused about what Trump meant by crime.",
-                "His explanation that Mexicans 'are bringing drugs' may well be an extremely racist stereotype, but as an example of crime, drug smuggling is relatively uncontroversial.",
-                "However, different political perspectives can easily reveal that the apparent obviousness of crime is illusory.",
-                "In the years following the mass protests of 2012, Vladimir Putin and the Russian government broadened the definition of espionage to include reporting and other journalistic activities.",
-                "As Masha Gessen writes, this means that 'contrary to popular perception and common sense, in Russia, \"espionage\" does not need to mean working for a foreign intelligence service or even a foreign government', but includes 'gathering information for any foreign organization the Russian government sees as threatening the security of the country'."
-            ],
-            ch06_ex04: [
-                "While there is live debate among philosophers about whether understanding is itself a kind of knowledge, it is generally agreed that understanding is something beyond mere knowledge of facts.",
-                "To illustrate the plausibility of this idea, consider a student who simply parrots what their biology teacher tells them.",
-                "This student knows, for example, that the DNA sequences of humans and chimpanzees are extraordinarily similar because the teacher has said this.",
-                "However, the student may be clueless as to why this is so, or the importance of this similarity within the larger context of biology.",
-                "The student may have no grasp of how this fact provides support for evolution in general and common descent in particular.",
-                "What is missing?",
-                "It seems that whereas the student simply knows these isolated facts, understanding requires seeing how these facts hang together.",
-                "The person with understanding grasps biology as an interrelated body of information with many connections between the various facts.",
-                "This person can appreciate how these various facts depend upon one another.",
-                "Furthermore, the person who understands biology can use this understanding to explain and sometimes predict particular biological phenomena."
-            ],
-            ch06_ex05_06: [
-                "In current practices, a translation of a novel can and must communicate the basic elements of narrative form that structure the source text.",
-                "But it is still not true that these elements are free from variation.",
-                "Any language use is likely to vary the standard dialect by sampling a diversity of nonstandard or minor formations: regional or group dialects, jargons, cliches and slogans, and stylistic innovations.",
-                "Jean-Jacques Lecercle calls these variations the \"remainder\" because they exceed communication of a univocal meaning and instead draw attention to the conditions of the communicative act, conditions that are in the first instance linguistic and cultural, but that ultimately embrace social and political factors.",
-                "The remainder in literary texts is much more complicated, of course, usually a sedimentation of forms and themes, past as well as present.",
-                "Any communication through translating, then, will involve the release of a domestic remainder, especially in the case of literature.",
-                "The source text is rewritten in domestic dialects, discourses, and styles, which produce textual effects that signify only in the history of the translating language and culture.",
-                "The translator may produce these effects to communicate the source text, trying to invent analogues for its forms and themes.",
-                "But the result will always go beyond any communication to release target-oriented possibilities of meaning."
-            ],
-
-        };
+        // The previous chapter's copyrighted passages have been removed.
+        // Each learner imports their own copy locally; no textbook text is hosted.
+        const exercises = Object.create(null);
+        const storagePrefix = 'wackydocs_ch07_local_';
 
         let currentExercise = [];
         let correctOrder = [];
@@ -143,9 +108,82 @@
         const scoreElement = document.getElementById('score');
         const feedback = document.getElementById('feedback');
 
-        exerciseSelect.addEventListener('change', function () {
-            const selectedExercise = this.value;
-            if (selectedExercise) loadExercise(selectedExercise);
+        const passageEditor = document.getElementById('passageEditor');
+        const passageText = document.getElementById('passageText');
+        const importStatus = document.getElementById('importStatus');
+        const savePassageBtn = document.getElementById('savePassageBtn');
+        const deletePassageBtn = document.getElementById('deletePassageBtn');
+
+        function getStoredText(key) {
+            try { return localStorage.getItem(storagePrefix + key) || ''; }
+            catch (error) { return exercises[key] ? exercises[key].join('\n') : ''; }
+        }
+
+        function parseSentences(text) {
+            return text.split(/\r?\n/)
+                .map(line => line.trim().replace(/^(?:[①-⑳]|\d+[.)]|[-•])\s*/, '').trim())
+                .filter(Boolean);
+        }
+
+        function selectExercise() {
+            const key = exerciseSelect.value;
+            passageEditor.style.display = key ? 'block' : 'none';
+            exerciseArea.style.display = 'none';
+            scoreDisplay.style.display = 'none';
+            shuffleBtn.disabled = true;
+            checkBtn.disabled = true;
+            resetBtn.disabled = true;
+            hideFeedback();
+            importStatus.textContent = '';
+            if (!key) return;
+            const stored = getStoredText(key);
+            passageText.value = stored;
+            if (stored) {
+                const sentences = parseSentences(stored);
+                if (sentences.length >= 2 && new Set(sentences).size === sentences.length) {
+                    exercises[key] = sentences;
+                    importStatus.textContent = '저장된 ' + sentences.length + '개 문장을 불러왔습니다. 아래에서 연습하거나 본문을 수정할 수 있습니다.';
+                    loadExercise(key);
+                }
+            } else {
+                importStatus.textContent = '아직 본문이 등록되지 않았습니다. 입력 후 저장하세요.';
+            }
+        }
+
+        exerciseSelect.addEventListener('change', selectExercise);
+        savePassageBtn.addEventListener('click', function () {
+            const key = exerciseSelect.value;
+            if (!key) return;
+            const sentences = parseSentences(passageText.value);
+            if (sentences.length < 2) {
+                importStatus.textContent = '문장을 두 개 이상, 한 줄에 하나씩 입력하세요.';
+                return;
+            }
+            if (new Set(sentences).size !== sentences.length) {
+                importStatus.textContent = '완전히 같은 문장이 중복되어 있습니다. 중복 문장을 확인하세요.';
+                return;
+            }
+            exercises[key] = sentences;
+            try {
+                localStorage.setItem(storagePrefix + key, sentences.join('\n'));
+                importStatus.textContent = sentences.length + '개 문장을 이 브라우저에 저장했습니다.';
+            } catch (error) {
+                importStatus.textContent = '저장소 접근이 제한되어 현재 탭에서만 연습할 수 있습니다.';
+            }
+            loadExercise(key);
+        });
+        deletePassageBtn.addEventListener('click', function () {
+            const key = exerciseSelect.value;
+            if (!key) return;
+            delete exercises[key];
+            try { localStorage.removeItem(storagePrefix + key); } catch (error) {}
+            passageText.value = '';
+            exerciseArea.style.display = 'none';
+            scoreDisplay.style.display = 'none';
+            shuffleBtn.disabled = true;
+            resetBtn.disabled = true;
+            checkBtn.disabled = true;
+            importStatus.textContent = '이 Exercise의 브라우저 저장 내용을 삭제했습니다.';
         });
 
         shuffleBtn.addEventListener('click', shuffleSentences);
