@@ -41,12 +41,22 @@
             <div class="exercise-select">
                 <select id="exerciseSelect">
                     <option value="">연습할 지문을 선택하세요</option>
-                    <option value="ch07_ex01">7강 - Exercise 01</option>
-                    <option value="ch07_ex02">7강 - Exercise 02</option>
-                    <option value="ch07_ex03">7강 - Exercise 03</option>
-                    <option value="ch07_ex04">7강 - Exercise 04</option>
-                    <option value="ch07_ex05_06">7강 - Exercise 05~06</option>
+                    <option value="ch07_ex01">7강 - Exercise 01 (5문장)</option>
+                    <option value="ch07_ex02">7강 - Exercise 02 (7문장)</option>
+                    <option value="ch07_ex03">7강 - Exercise 03 (8문장)</option>
+                    <option value="ch07_ex04">7강 - Exercise 04 (9문장)</option>
+                    <option value="ch07_ex05_06">7강 - Exercise 05~06 (10문장)</option>
                 </select>
+            </div>
+
+            <div id="pdfImportPanel" style="display:none; margin:14px 0 18px; padding:16px; border-radius:12px; border:1px solid #bae6fd; background:#f0f9ff;">
+                <strong>7강 원문을 한 번만 연결하세요</strong>
+                <p style="margin:7px 0 10px; font-size:14px; line-height:1.5;">
+                    'EBS 2026 수능특강 Light 영어독해연습 - 한줄해석' PDF를 선택하면 34~38쪽의 영어 문장만 자동 추출합니다.
+                    등록 후에는 기존 문장 배열 방식으로 바로 연습할 수 있습니다. PDF와 지문은 서버로 전송되지 않습니다.
+                </p>
+                <input type="file" id="pdfFileInput" accept=".pdf,application/pdf" style="max-width:100%; font-size:14px;">
+                <p id="pdfImportStatus" role="status" aria-live="polite" style="margin:8px 0 0;font-size:13px;"></p>
             </div>
 
             <div class="controls">
@@ -74,6 +84,7 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>
         const exercises = {
             ch07_ex01: [],
@@ -83,7 +94,7 @@
             ch07_ex05_06: []
         };
 
-                let currentExercise = [];
+        let currentExercise = [];
         let correctOrder = [];
         let userOrder = [];
         let selectedSentence = null;
@@ -99,9 +110,143 @@
         const scoreElement = document.getElementById('score');
         const feedback = document.getElementById('feedback');
 
+        // Original textbook passages stay in the learner's own browser, not the public repository.
+        const pdfImportPanel = document.getElementById('pdfImportPanel');
+        const pdfFileInput = document.getElementById('pdfFileInput');
+        const pdfImportStatus = document.getElementById('pdfImportStatus');
+        const chapter7StorageKey = 'wackydocs_ch07_uploaded_pdf_v1';
+        const exercisePages = [
+            ['ch07_ex01', 34, 5],
+            ['ch07_ex02', 35, 7],
+            ['ch07_ex03', 36, 8],
+            ['ch07_ex04', 37, 9],
+            ['ch07_ex05_06', 38, 10]
+        ];
+
+        function checkAllImported(value) {
+            return !!value && exercisePages.every(([key, , count]) =>
+                Array.isArray(value[key]) &&
+                value[key].length === count &&
+                value[key].every(sentence => typeof sentence === 'string' && sentence.length > 10)
+            );
+        }
+
+        function loadSavedChapter() {
+            try {
+                const stored = JSON.parse(localStorage.getItem(chapter7StorageKey) || 'null');
+                if (!checkAllImported(stored)) return;
+                exercisePages.forEach(([key]) => { exercises[key] = stored[key]; });
+            } catch (error) {
+                // Private browsing may disable persistent storage.
+            }
+        }
+
+        function pdfLines(textContent) {
+            const grouped = [];
+            for (const item of textContent.items) {
+                if (!item.str || !item.str.trim()) continue;
+                const y = item.transform[5];
+                const x = item.transform[4];
+                let line = grouped.find(row => Math.abs(row.y - y) < 2.4);
+                if (!line) { line = { y, items: [] }; grouped.push(line); }
+                line.items.push({ x, width: item.width || 0, str: item.str });
+            }
+            grouped.sort((a, b) => b.y - a.y);
+            return grouped.map(row => {
+                row.items.sort((a, b) => a.x - b.x);
+                let result = '', lastEnd = null;
+                for (const part of row.items) {
+                    if (lastEnd !== null && part.x - lastEnd > 2 &&
+                        result && !/\s$/.test(result) && !/^\s/.test(part.str)) {
+                        result += ' ';
+                    }
+                    result += part.str;
+                    lastEnd = Math.max(lastEnd ?? 0, part.x + part.width);
+                }
+                return result.trim().replace(/\s+/g, ' ');
+            }).filter(Boolean);
+        }
+
+        function extractEnglishSentences(lines) {
+            const marker = /^[①②③④⑤⑥⑦⑧⑨⑩]\s*(.*)$/;
+            const sentences = [];
+            let current = '';
+            let collecting = false;
+            function finish() {
+                if (current) sentences.push(current.replace(/\s+/g, ' ').trim());
+                current = '';
+            }
+            for (const line of lines) {
+                const found = line.match(marker);
+                if (found) {
+                    const text = found[1].trim();
+                    if (/^[A-Za-z(“"']/u.test(text)) {
+                        finish();
+                        current = text;
+                        collecting = true;
+                    } else {
+                        if (collecting) finish();
+                        collecting = false;
+                    }
+                    continue;
+                }
+                if (!collecting || /[가-힣]/u.test(line)) continue;
+                if (/^(?:EBS|flowedu\.tistory)/i.test(line)) continue;
+                current += /[-‐‑]$/.test(current) ? line : ' ' + line;
+            }
+            finish();
+            return sentences;
+        }
+
+        async function importPdf(file) {
+            if (!file) return;
+            pdfImportPanel.style.display = 'block';
+            pdfImportStatus.textContent = 'PDF를 읽고 영어 문장을 확인하는 중입니다…';
+            pdfFileInput.disabled = true;
+            try {
+                if (!window.pdfjsLib) throw new Error('PDF 해석 라이브러리를 불러오지 못했습니다. 인터넷 연결을 확인하세요.');
+                pdfjsLib.GlobalWorkerOptions.workerSrc =
+                    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+                const documentTask = pdfjsLib.getDocument({ data: new Uint8Array(await file.arrayBuffer()) });
+                const pdf = await documentTask.promise;
+                if (pdf.numPages < 38) throw new Error('34~38쪽이 포함된 전체 한줄해석 PDF를 선택하세요.');
+                const imported = {};
+                for (const [key, pageNumber, expected] of exercisePages) {
+                    const page = await pdf.getPage(pageNumber);
+                    const sentences = extractEnglishSentences(pdfLines(await page.getTextContent()));
+                    if (sentences.length !== expected) {
+                        throw new Error(pageNumber + '쪽에서 문장 ' + expected +
+                            '개를 기대했지만 ' + sentences.length + '개가 확인되었습니다. 이 PDF 버전을 확인하세요.');
+                    }
+                    imported[key] = sentences;
+                }
+                if (!checkAllImported(imported)) throw new Error('문장 인식 결과를 확인하지 못했습니다.');
+                exercisePages.forEach(([key]) => { exercises[key] = imported[key]; });
+                try { localStorage.setItem(chapter7StorageKey, JSON.stringify(imported)); }
+                catch (error) { /* Keep the imported data during this page session. */ }
+                pdfImportPanel.style.display = 'none';
+                hideFeedback();
+                if (exerciseSelect.value) loadExercise(exerciseSelect.value);
+                else {
+                    exerciseSelect.value = 'ch07_ex01';
+                    loadExercise('ch07_ex01');
+                }
+            } catch (error) {
+                pdfImportStatus.textContent = '불러오기 실패: ' + error.message;
+            } finally {
+                pdfFileInput.disabled = false;
+                pdfFileInput.value = '';
+            }
+        }
+
+        loadSavedChapter();
+        pdfFileInput.addEventListener('change', () => importPdf(pdfFileInput.files[0]));
         exerciseSelect.addEventListener('change', function () {
             const selectedExercise = this.value;
-            if (selectedExercise && exercises[selectedExercise]?.length > 1) {
+            const exists = selectedExercise && exercises[selectedExercise]?.length > 1;
+            pdfImportPanel.style.display = selectedExercise && !exists ? 'block' : 'none';
+            if (exists) {
+                hideFeedback();
                 loadExercise(selectedExercise);
             } else {
                 exerciseArea.style.display = 'none';
@@ -109,7 +254,7 @@
                 checkBtn.disabled = true;
                 resetBtn.disabled = true;
                 scoreDisplay.style.display = 'none';
-                if (selectedExercise) showFeedback('7강 원문이 아직 등록되지 않았습니다.', 'incorrect');
+                if (selectedExercise) showFeedback('PDF를 한 번 연결하면 문장 배열을 시작할 수 있습니다.', 'incorrect');
                 else hideFeedback();
             }
         });
