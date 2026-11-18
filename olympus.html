@@ -1,41 +1,39 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EBS 수능특강 Light 영어독해연습 - 문장 순서 배열 연습</title>
+    <title>EBS 수능특강 Light 영어독해연습 7강 - 문장 순서 배열 연습</title>
     <link rel="stylesheet" href="shared.css">
     <style>
         :root {
-            --accent: #0284c7;
-            --accent-hover: #0369a1;
-            --accent-light: #f0f9ff;
-            --accent-subtle: rgba(14, 165, 233, 0.2);
-            --accent-glow: rgba(2, 132, 199, 0.28);
+            --accent: #4f46e5;
+            --accent-hover: #4338ca;
+            --accent-light: #eef2ff;
+            --accent-subtle: rgba(79, 70, 229, 0.2);
+            --accent-glow: rgba(79, 70, 229, 0.28);
         }
         .header {
-            background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 50%, #0284c7 100%);
+            background: linear-gradient(135deg, #312e81 0%, #4338ca 50%, #6366f1 100%);
         }
     </style>
 </head>
-
 <body>
     <div class="container">
         <div class="header">
             <a href="main.html" class="back-btn">← 목록으로</a>
             <div class="header-badge">📚 EBS 수능특강 Light</div>
             <h1>수능특강 Light 영어독해연습</h1>
-            <p>7강 (Exercise 01 ~ 06) · 논리적 연결성과 문맥 흐름을 파악하여 올바른 순서로 배열해보세요</p>
+            <p>7강 · Exercise 01~05·06 (총 5개 지문) · 문장 순서 배열 연습</p>
         </div>
 
         <div class="exercise-container">
             <div class="exercise-info">
                 <h3>📚 연습 방법</h3>
-                <p>1. 아래에서 연습할 지문을 선택하세요<br>
-                    2. 왼쪽의 문장을 클릭해서 선택한 후, 오른쪽의 원하는 위치를 클릭하세요<br>
-                    3. 잘못 배치한 문장은 클릭해서 다시 왼쪽으로 돌려보낼 수 있습니다<br>
-                    4. '정답 확인' 버튼을 눌러 결과를 확인하세요</p>
+                <p>1. 아래 메뉴에서 연습할 문제 번호를 선택하세요.<br>
+                2. 왼쪽의 문장을 클릭해서 선택한 후, 오른쪽의 원하는 위치를 클릭하세요.<br>
+                3. 잘못 배치한 문장은 클릭해서 다시 왼쪽으로 돌려보낼 수 있습니다.<br>
+                4. '정답 확인' 버튼을 눌러 결과를 확인하세요.</p>
             </div>
 
             <div class="exercise-select">
@@ -45,18 +43,8 @@
                     <option value="ch07_ex02">7강 - Exercise 02 (7문장)</option>
                     <option value="ch07_ex03">7강 - Exercise 03 (8문장)</option>
                     <option value="ch07_ex04">7강 - Exercise 04 (9문장)</option>
-                    <option value="ch07_ex05_06">7강 - Exercise 05~06 (10문장)</option>
+                    <option value="ch07_ex05_06">7강 - Exercise 05~06 (12문장)</option>
                 </select>
-            </div>
-
-            <div id="pdfImportPanel" style="display:none; margin:14px 0 18px; padding:16px; border-radius:12px; border:1px solid #bae6fd; background:#f0f9ff;">
-                <strong>7강 원문을 한 번만 연결하세요</strong>
-                <p style="margin:7px 0 10px; font-size:14px; line-height:1.5;">
-                    'EBS 2026 수능특강 Light 영어독해연습 - 한줄해석' PDF를 선택하면 34~38쪽의 영어 문장만 자동 추출합니다.
-                    등록 후에는 기존 문장 배열 방식으로 바로 연습할 수 있습니다. PDF와 지문은 서버로 전송되지 않습니다.
-                </p>
-                <input type="file" id="pdfFileInput" accept=".pdf,application/pdf" style="max-width:100%; font-size:14px;">
-                <p id="pdfImportStatus" role="status" aria-live="polite" style="margin:8px 0 0;font-size:13px;"></p>
             </div>
 
             <div class="controls">
@@ -73,26 +61,73 @@
 
             <div class="exercise-area" id="exerciseArea" style="display: none;">
                 <div class="scrambled-sentences">
-                    <h3>🔀 Scrambled Sentences</h3>
+                    <h3>🔀 섞인 문장 (Scrambled)</h3>
                     <div id="scrambledContainer"></div>
                 </div>
+
                 <div class="ordered-sentences">
-                    <h3>✅ Correct Order</h3>
+                    <h3>✅ 올바른 순서 (Correct Order)</h3>
                     <div id="orderedContainer"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>
         const exercises = {
-            ch07_ex01: [],
-            ch07_ex02: [],
-            ch07_ex03: [],
-            ch07_ex04: [],
-            ch07_ex05_06: []
+            ch07_ex01: [
+                "Assuming that humans are more prone to creating social norms, moral rules, and laws than are non-humans, what might explain this difference?",
+                "One part of the answer may lie in the greater social complexity and inclination for cooperation with large numbers of conspecifics found in humans relative to non-humans.",
+                "Unlike most animals, humans have multilayered societies, although hamadryas baboons (Papio hamadryas hamadryas) and bottle-nosed dolphins (Tursiops truncatus) have layered societies that approach the complexity of those of humans in that there is cooperation between higher-level social units.",
+                "Humans are, however, probably unique in the extent to which there is cooperation even between individuals who barely know one another or have not even met, but who are either distant kin or are symbolically connected in some way.",
+                "Such cooperation would probably be impossible without the aid of language, which enables people to deliver messages to others."
+            ],
+            ch07_ex02: [
+                "The idea of security can be considered to be one of the most fundamental of animal instincts.",
+                "Every animal needs to feel secure and protected from predators.",
+                "The very existence of a species can be threatened if it cannot identify threats, communicate them to others in the species, and eventually develop a mechanism to challenge the threat.",
+                "In the case of animals, there is a process of constant watchfulness to examine the surroundings and be aware of the presence of others in the space.",
+                "Biologists have spent time studying the ways in which many birds and primates are able to keep an eye on their habitat, and when a threat is observed, the animals use a special kind of signal to communicate information about the danger to other animals in the space.",
+                "This process has received scientific attention because it signals a level of cognition that can offer ways of understanding how animals communicate with each other.",
+                "The key issue is that gaining a sense of security is an instinct that could be essential for the continued existence of a species."
+            ],
+            ch07_ex03: [
+                "Adopting a growth mindset opens up a host of benefits that ripple through learning and life.",
+                "First and foremost, it cultivates resilience.",
+                "When setbacks occur ─ as they inevitably do ─ people with growth mindsets see them as temporary obstacles rather than proof of inadequacy.",
+                "They tap into creativity to find new strategies and keep moving forward.",
+                "This persistence often leads to greater achievement than raw talent ever could.",
+                "Beyond resilience, a growth orientation encourages curiosity and experimentation.",
+                "It turns mistakes from sources of shame into valuable feedback, fostering a spirit of continuous improvement.",
+                "And by valuing effort over outcome, individuals tend to maintain motivation longer, enjoying progress for its own sake rather than just external validation."
+            ],
+            ch07_ex04: [
+                "On the traditional family smallholding, labour and domestic life are more closely interwoven than they are in a mill town, where the industrial is one thing and the domestic another.",
+                "Peasants have children, for example, for much the same reasons that anyone else does, but also because they will grow up to work on the land, take care of the elderly, and eventually inherit one's modest allocation of acres.",
+                "As well as looking cute, they represent labour-power, a welfare system, and the continued survival of the farm.",
+                "In modern civilisation, by contrast, it is hard to say what children are for.",
+                "They don't work, for example, and some of them are not particularly decorative.",
+                "They are expensive to keep and not always rational.",
+                "Caring for them as infants is one of the most difficult forms of labour known to humankind.",
+                "Given all this, it is surprising that the modern human species manages to reproduce itself at all.",
+                "Yet again there is no question of the utility of children among peasants and tenant farmers."
+            ],
+            ch07_ex05_06: [
+                "The value that ethical consumers put on personality and direct trade is relatively easy for them to realise.",
+                "Unlike the household confronting a bossy butcher or baker, most ethical consumers do not confront real makers of what they buy.",
+                "This allows them to construct these producers as like-minded people who share their values.",
+                "The farmers who grow the organic crops can be thought of as doing so not for impersonal commercial reasons, but for reasons that are more deep-seated, 'thought to be internal to the individual'.",
+                "They can be thought of as living the organic life that many ethical consumers value.",
+                "Similarly, the smiling smallholders who grow the coffee can be imagined as producing for fair trade because they embrace the values, rather than because they want a better position in the international coffee market.",
+                "And, of course, those who buy ethical fabrics made by Bangladeshi women can assume that those women are grateful for paid work that empowers them, rather than seeing that work as a shameful public recognition that their households do not have the resources to be self-reliant.",
+                "It appears, then, that ethical consumers preferring direct trade and other consumers preferring impersonal trade may well want the same thing, that the objects in their lives not be impersonal commodities.",
+                "However, their approaches differ.",
+                "Ethical consumers seek objects that already carry identity, that of their makers.",
+                "The others seek impersonal objects that they can stamp with the identities and social relationships with which they will be associated.",
+                "Both, however, differ from those for whom personality in economic relations signals subordination, whether poor families confronting merchants on whom they rely for credit or merchants confronting rich customers on whom they depend for trade."
+            ]
         };
+
 
         let currentExercise = [];
         let correctOrder = [];
@@ -110,152 +145,19 @@
         const scoreElement = document.getElementById('score');
         const feedback = document.getElementById('feedback');
 
-        // Original textbook passages stay in the learner's own browser, not the public repository.
-        const pdfImportPanel = document.getElementById('pdfImportPanel');
-        const pdfFileInput = document.getElementById('pdfFileInput');
-        const pdfImportStatus = document.getElementById('pdfImportStatus');
-        const chapter7StorageKey = 'wackydocs_ch07_uploaded_pdf_v1';
-        const exercisePages = [
-            ['ch07_ex01', 34, 5],
-            ['ch07_ex02', 35, 7],
-            ['ch07_ex03', 36, 8],
-            ['ch07_ex04', 37, 9],
-            ['ch07_ex05_06', 38, 10]
-        ];
-
-        function checkAllImported(value) {
-            return !!value && exercisePages.every(([key, , count]) =>
-                Array.isArray(value[key]) &&
-                value[key].length === count &&
-                value[key].every(sentence => typeof sentence === 'string' && sentence.length > 10)
-            );
-        }
-
-        function loadSavedChapter() {
-            try {
-                const stored = JSON.parse(localStorage.getItem(chapter7StorageKey) || 'null');
-                if (!checkAllImported(stored)) return;
-                exercisePages.forEach(([key]) => { exercises[key] = stored[key]; });
-            } catch (error) {
-                // Private browsing may disable persistent storage.
-            }
-        }
-
-        function pdfLines(textContent) {
-            const grouped = [];
-            for (const item of textContent.items) {
-                if (!item.str || !item.str.trim()) continue;
-                const y = item.transform[5];
-                const x = item.transform[4];
-                let line = grouped.find(row => Math.abs(row.y - y) < 2.4);
-                if (!line) { line = { y, items: [] }; grouped.push(line); }
-                line.items.push({ x, width: item.width || 0, str: item.str });
-            }
-            grouped.sort((a, b) => b.y - a.y);
-            return grouped.map(row => {
-                row.items.sort((a, b) => a.x - b.x);
-                let result = '', lastEnd = null;
-                for (const part of row.items) {
-                    if (lastEnd !== null && part.x - lastEnd > 2 &&
-                        result && !/\s$/.test(result) && !/^\s/.test(part.str)) {
-                        result += ' ';
-                    }
-                    result += part.str;
-                    lastEnd = Math.max(lastEnd ?? 0, part.x + part.width);
-                }
-                return result.trim().replace(/\s+/g, ' ');
-            }).filter(Boolean);
-        }
-
-        function extractEnglishSentences(lines) {
-            const marker = /^[①②③④⑤⑥⑦⑧⑨⑩]\s*(.*)$/;
-            const sentences = [];
-            let current = '';
-            let collecting = false;
-            function finish() {
-                if (current) sentences.push(current.replace(/\s+/g, ' ').trim());
-                current = '';
-            }
-            for (const line of lines) {
-                const found = line.match(marker);
-                if (found) {
-                    const text = found[1].trim();
-                    if (/^[A-Za-z(“"']/u.test(text)) {
-                        finish();
-                        current = text;
-                        collecting = true;
-                    } else {
-                        if (collecting) finish();
-                        collecting = false;
-                    }
-                    continue;
-                }
-                if (!collecting || /[가-힣]/u.test(line)) continue;
-                if (/^(?:EBS|flowedu\.tistory)/i.test(line)) continue;
-                current += /[-‐‑]$/.test(current) ? line : ' ' + line;
-            }
-            finish();
-            return sentences;
-        }
-
-        async function importPdf(file) {
-            if (!file) return;
-            pdfImportPanel.style.display = 'block';
-            pdfImportStatus.textContent = 'PDF를 읽고 영어 문장을 확인하는 중입니다…';
-            pdfFileInput.disabled = true;
-            try {
-                if (!window.pdfjsLib) throw new Error('PDF 해석 라이브러리를 불러오지 못했습니다. 인터넷 연결을 확인하세요.');
-                pdfjsLib.GlobalWorkerOptions.workerSrc =
-                    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-                const documentTask = pdfjsLib.getDocument({ data: new Uint8Array(await file.arrayBuffer()) });
-                const pdf = await documentTask.promise;
-                if (pdf.numPages < 38) throw new Error('34~38쪽이 포함된 전체 한줄해석 PDF를 선택하세요.');
-                const imported = {};
-                for (const [key, pageNumber, expected] of exercisePages) {
-                    const page = await pdf.getPage(pageNumber);
-                    const sentences = extractEnglishSentences(pdfLines(await page.getTextContent()));
-                    if (sentences.length !== expected) {
-                        throw new Error(pageNumber + '쪽에서 문장 ' + expected +
-                            '개를 기대했지만 ' + sentences.length + '개가 확인되었습니다. 이 PDF 버전을 확인하세요.');
-                    }
-                    imported[key] = sentences;
-                }
-                if (!checkAllImported(imported)) throw new Error('문장 인식 결과를 확인하지 못했습니다.');
-                exercisePages.forEach(([key]) => { exercises[key] = imported[key]; });
-                try { localStorage.setItem(chapter7StorageKey, JSON.stringify(imported)); }
-                catch (error) { /* Keep the imported data during this page session. */ }
-                pdfImportPanel.style.display = 'none';
-                hideFeedback();
-                if (exerciseSelect.value) loadExercise(exerciseSelect.value);
-                else {
-                    exerciseSelect.value = 'ch07_ex01';
-                    loadExercise('ch07_ex01');
-                }
-            } catch (error) {
-                pdfImportStatus.textContent = '불러오기 실패: ' + error.message;
-            } finally {
-                pdfFileInput.disabled = false;
-                pdfFileInput.value = '';
-            }
-        }
-
-        loadSavedChapter();
-        pdfFileInput.addEventListener('change', () => importPdf(pdfFileInput.files[0]));
-        exerciseSelect.addEventListener('change', function () {
+        exerciseSelect.addEventListener('change', function() {
             const selectedExercise = this.value;
-            const exists = selectedExercise && exercises[selectedExercise]?.length > 1;
-            pdfImportPanel.style.display = selectedExercise && !exists ? 'block' : 'none';
-            if (exists) {
-                hideFeedback();
+            if (selectedExercise) {
                 loadExercise(selectedExercise);
             } else {
+                currentExercise = [];
+                correctOrder = [];
                 exerciseArea.style.display = 'none';
                 shuffleBtn.disabled = true;
                 checkBtn.disabled = true;
                 resetBtn.disabled = true;
                 scoreDisplay.style.display = 'none';
-                if (selectedExercise) showFeedback('PDF를 한 번 연결하면 문장 배열을 시작할 수 있습니다.', 'incorrect');
-                else hideFeedback();
+                hideFeedback();
             }
         });
 
@@ -268,6 +170,7 @@
             correctOrder = [...currentExercise];
             userOrder = [];
             selectedSentence = null;
+
             shuffleSentences();
             exerciseArea.style.display = 'block';
             shuffleBtn.disabled = false;
@@ -282,31 +185,47 @@
                 const j = Math.floor(Math.random() * (i + 1));
                 [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
             }
+
             displayScrambledSentences(shuffled);
             createDropZones();
             checkBtn.disabled = true;
             userOrder = [];
             selectedSentence = null;
+            scoreDisplay.style.display = 'none';
+            hideFeedback();
         }
 
         function displayScrambledSentences(sentences) {
             scrambledContainer.innerHTML = '';
-            sentences.forEach(sentence => {
+            sentences.forEach((sentence) => {
                 const sentenceDiv = document.createElement('div');
                 sentenceDiv.className = 'sentence-item';
                 sentenceDiv.textContent = sentence;
                 sentenceDiv.dataset.sentence = sentence;
-                sentenceDiv.addEventListener('click', function () { selectSentence(this); });
+
+                sentenceDiv.addEventListener('click', function() {
+                    selectSentence(this);
+                });
+
                 scrambledContainer.appendChild(sentenceDiv);
             });
         }
 
         function selectSentence(element) {
-            document.querySelectorAll('.sentence-item.selected').forEach(item => item.classList.remove('selected'));
-            document.querySelectorAll('.drop-zone.highlight').forEach(zone => zone.classList.remove('highlight'));
+            document.querySelectorAll('.sentence-item.selected').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.querySelectorAll('.drop-zone.highlight').forEach(zone => {
+                zone.classList.remove('highlight');
+            });
+
             element.classList.add('selected');
             selectedSentence = element;
-            document.querySelectorAll('.drop-zone').forEach(zone => zone.classList.add('highlight'));
+
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                zone.classList.add('highlight');
+            });
+
             showFeedback('선택된 문장을 배치할 위치를 클릭하세요!', 'correct');
         }
 
@@ -317,7 +236,11 @@
                 dropZone.className = 'drop-zone';
                 dropZone.textContent = `문장 ${i + 1}을 여기에 배치하세요`;
                 dropZone.dataset.position = i;
-                dropZone.addEventListener('click', function () { handleDropZoneClick(this); });
+
+                dropZone.addEventListener('click', function() {
+                    handleDropZoneClick(this);
+                });
+
                 orderedContainer.appendChild(dropZone);
             }
         }
@@ -327,19 +250,31 @@
                 showFeedback('먼저 왼쪽에서 문장을 선택하세요!', 'incorrect');
                 return;
             }
+
             const sentence = selectedSentence.dataset.sentence;
             const position = parseInt(dropZone.dataset.position);
+
             const sentenceDiv = document.createElement('div');
             sentenceDiv.className = 'sentence-item';
             sentenceDiv.textContent = sentence;
             sentenceDiv.dataset.sentence = sentence;
             sentenceDiv.dataset.position = position;
-            sentenceDiv.addEventListener('click', function () { returnSentence(this); });
+
+            sentenceDiv.addEventListener('click', function() {
+                returnSentence(this);
+            });
+
             dropZone.parentNode.replaceChild(sentenceDiv, dropZone);
             selectedSentence.remove();
             selectedSentence = null;
-            document.querySelectorAll('.sentence-item.selected').forEach(item => item.classList.remove('selected'));
-            document.querySelectorAll('.drop-zone.highlight').forEach(zone => zone.classList.remove('highlight'));
+
+            document.querySelectorAll('.sentence-item.selected').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.querySelectorAll('.drop-zone.highlight').forEach(zone => {
+                zone.classList.remove('highlight');
+            });
+
             updateUserOrder();
             hideFeedback();
         }
@@ -347,58 +282,76 @@
         function returnSentence(sentenceElement) {
             const position = parseInt(sentenceElement.dataset.position);
             const sentence = sentenceElement.dataset.sentence;
+
             const dropZone = document.createElement('div');
             dropZone.className = 'drop-zone';
             dropZone.textContent = `문장 ${position + 1}을 여기에 배치하세요`;
             dropZone.dataset.position = position;
-            dropZone.addEventListener('click', function () { handleDropZoneClick(this); });
+
+            dropZone.addEventListener('click', function() {
+                handleDropZoneClick(this);
+            });
+
             sentenceElement.parentNode.replaceChild(dropZone, sentenceElement);
+
             const newSentenceDiv = document.createElement('div');
             newSentenceDiv.className = 'sentence-item';
             newSentenceDiv.textContent = sentence;
             newSentenceDiv.dataset.sentence = sentence;
-            newSentenceDiv.addEventListener('click', function () { selectSentence(this); });
+
+            newSentenceDiv.addEventListener('click', function() {
+                selectSentence(this);
+            });
+
             scrambledContainer.appendChild(newSentenceDiv);
+
             updateUserOrder();
         }
 
         function updateUserOrder() {
-            const placedItems = orderedContainer.querySelectorAll('.sentence-item');
-            userOrder = Array.from(placedItems).map(item => item.dataset.sentence);
-            const allPlaced = orderedContainer.querySelectorAll('.drop-zone').length === 0;
-            checkBtn.disabled = !allPlaced;
+            userOrder = [];
+            const placedSentences = orderedContainer.querySelectorAll('.sentence-item');
+            
+            placedSentences.forEach(sentence => {
+                const position = parseInt(sentence.dataset.position);
+                userOrder[position] = sentence.dataset.sentence;
+            });
+
+            let count = 0;
+            placedSentences.forEach(s => count++);
+            checkBtn.disabled = (count !== currentExercise.length);
         }
 
         function checkAnswer() {
-            const placedItems = orderedContainer.querySelectorAll('.sentence-item');
             let correctCount = 0;
-            placedItems.forEach((item, index) => {
-                item.classList.remove('correct-sentence', 'incorrect-sentence');
-                if (item.dataset.sentence === correctOrder[index]) {
-                    item.classList.add('correct-sentence');
+            const placedSentences = orderedContainer.querySelectorAll('.sentence-item');
+            
+            placedSentences.forEach((item) => {
+                const position = parseInt(item.dataset.position);
+                const sentence = item.dataset.sentence;
+                const isCorrect = correctOrder[position] === sentence;
+
+                if (isCorrect) {
                     correctCount++;
+                    item.classList.add('correct-sentence');
+                    item.classList.remove('incorrect-sentence');
                 } else {
                     item.classList.add('incorrect-sentence');
+                    item.classList.remove('correct-sentence');
                 }
             });
-            const score = Math.round((correctCount / correctOrder.length) * 100);
+
+            const score = Math.round((correctCount / currentExercise.length) * 100);
             scoreElement.textContent = score;
             scoreDisplay.style.display = 'block';
-            if (score === 100) {
-                showFeedback('🎉 완벽합니다! 모든 문장의 순서가 맞습니다!', 'correct');
-            } else if (score >= 60) {
-                showFeedback(`👍 좋아요! ${correctCount}/${correctOrder.length}개가 맞았습니다. 계속 연습해보세요!`, 'correct');
-            } else {
-                showFeedback(`💪 ${correctCount}/${correctOrder.length}개가 맞았습니다. 다시 도전해보세요!`, 'incorrect');
-            }
-        }
 
-        function resetExercise() {
-            userOrder = [];
-            selectedSentence = null;
-            shuffleSentences();
-            scoreDisplay.style.display = 'none';
-            hideFeedback();
+            if (score === 100) {
+                showFeedback('완벽합니다! 🎉 모든 문장이 올바른 순서입니다!', 'correct');
+            } else if (score >= 80) {
+                showFeedback(`좋습니다! 👍 ${correctCount}/${currentExercise.length} 문장이 올바른 위치에 있습니다.`, 'correct');
+            } else {
+                showFeedback(`다시 시도해보세요! 💪 ${correctCount}/${currentExercise.length} 문장이 올바른 위치에 있습니다.`, 'incorrect');
+            }
         }
 
         function showFeedback(message, type) {
@@ -408,9 +361,14 @@
 
         function hideFeedback() {
             feedback.className = 'feedback';
-            feedback.textContent = '';
+        }
+
+        function resetExercise() {
+            const selectedExercise = exerciseSelect.value;
+            if (selectedExercise) {
+                loadExercise(selectedExercise);
+            }
         }
     </script>
 </body>
-
 </html>
