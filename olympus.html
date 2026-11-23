@@ -24,7 +24,7 @@
             <a href="main.html" class="back-btn">← 목록으로</a>
             <div class="header-badge">📚 EBS 수능특강 Light</div>
             <h1>수능특강 Light 영어독해연습</h1>
-            <p>7강 · Exercise 01~05·06 (총 5개 지문) · 문장 순서 배열 연습</p>
+            <p>7강 · Exercise 01~05·06 (총 5개 원문 지문 · 6개 연습 세트) · 문장 순서 배열 연습</p>
         </div>
 
         <div class="exercise-container">
@@ -43,7 +43,8 @@
                     <option value="ch07_ex02">7강 - Exercise 02 (7문장)</option>
                     <option value="ch07_ex03">7강 - Exercise 03 (8문장)</option>
                     <option value="ch07_ex04">7강 - Exercise 04 (9문장)</option>
-                    <option value="ch07_ex05_06">7강 - Exercise 05~06 (12문장)</option>
+                    <option value="ch07_ex05_06_part1">7강 - Exercise 05~06 · Part 1 (문단 1~7)</option>
+                    <option value="ch07_ex05_06_part2">7강 - Exercise 05~06 · Part 2 (문단 8~12)</option>
                 </select>
             </div>
 
@@ -128,7 +129,11 @@
             ]
         };
 
+        // 원문의 순서를 보존한 채 Exercise 05~06을 두 부분으로 나누어 연습합니다.
+        exercises.ch07_ex05_06_part1 = exercises.ch07_ex05_06.slice(0, 7);
+        exercises.ch07_ex05_06_part2 = exercises.ch07_ex05_06.slice(7);
 
+        let currentStartNumber = 1;
         let currentExercise = [];
         let correctOrder = [];
         let userOrder = [];
@@ -166,6 +171,8 @@
         resetBtn.addEventListener('click', resetExercise);
 
         function loadExercise(exerciseKey) {
+            // Part 2의 첫 항목은 원문 번호 8번부터 표시합니다.
+            currentStartNumber = exerciseKey === 'ch07_ex05_06_part2' ? 8 : 1;
             currentExercise = [...exercises[exerciseKey]];
             correctOrder = [...currentExercise];
             userOrder = [];
@@ -229,12 +236,17 @@
             showFeedback('선택된 문장을 배치할 위치를 클릭하세요!', 'correct');
         }
 
+        function getPositionLabel(position) {
+            const number = currentStartNumber + position;
+            return exerciseSelect.value.startsWith('ch07_ex05_06') ? `문단 ${number}` : `문장 ${number}`;
+        }
+
         function createDropZones() {
             orderedContainer.innerHTML = '';
             for (let i = 0; i < currentExercise.length; i++) {
                 const dropZone = document.createElement('div');
                 dropZone.className = 'drop-zone';
-                dropZone.textContent = `문장 ${i + 1}을 여기에 배치하세요`;
+                dropZone.textContent = `${getPositionLabel(i)}을 여기에 배치하세요`;
                 dropZone.dataset.position = i;
 
                 dropZone.addEventListener('click', function() {
@@ -285,7 +297,7 @@
 
             const dropZone = document.createElement('div');
             dropZone.className = 'drop-zone';
-            dropZone.textContent = `문장 ${position + 1}을 여기에 배치하세요`;
+            dropZone.textContent = `${getPositionLabel(position)}을 여기에 배치하세요`;
             dropZone.dataset.position = position;
 
             dropZone.addEventListener('click', function() {
